@@ -4,11 +4,8 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Link from '@mui/material/Link'
 import ProTip from './ProTip'
+import { Button, Stack } from '@mui/material'
 
-console.log(
-    '[App.tsx]',
-    `Hello world from Electron ${process.versions.electron}!`
-)
 
 function Copyright() {
     return (
@@ -23,17 +20,27 @@ function Copyright() {
 }
 
 export default function App() {
+    const [filePath, setFilePath] = React.useState('')
+
+    const handleClickOpenFile = async () => {
+        const filePathFromMain = await window.electronAPI.openFile()
+        setFilePath(filePathFromMain)
+    }
+
     return (
         <Container maxWidth='sm'>
             <Box sx={{ my: 4 }}>
                 <Typography variant='h4' component='h1' gutterBottom>
                     Material UI Vite.js example in TypeScript
                 </Typography>
+                <Stack spacing={1} direction={'column'}>
+                    <Button variant='contained' onClick={handleClickOpenFile}>
+                        Open a File
+                    </Button>
+                    File path: <strong id='filePath'>{filePath}</strong>
+                </Stack>
                 <ProTip />
                 <Copyright />
-                <div className='bg-purple-600 h-20 w-52 text-center rounded-lg'>
-                    123
-                </div>
             </Box>
         </Container>
     )
