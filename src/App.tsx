@@ -6,7 +6,6 @@ import Link from '@mui/material/Link'
 import ProTip from './ProTip'
 import { Button, Stack } from '@mui/material'
 
-
 function Copyright() {
     return (
         <Typography variant='body2' color='text.secondary' align='center'>
@@ -20,11 +19,20 @@ function Copyright() {
 }
 
 export default function App() {
+    const [title, setTitle] = React.useState('')
     const [filePath, setFilePath] = React.useState('')
 
     const handleClickOpenFile = async () => {
         const filePathFromMain = await window.electronAPI.openFile()
         setFilePath(filePathFromMain)
+    }
+
+    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.target.value)
+    }
+
+    const handleSetWinTitle = async () => {
+        await window.electronAPI.sendMessage(title)
     }
 
     return (
@@ -34,6 +42,21 @@ export default function App() {
                     Material UI Vite.js example in TypeScript
                 </Typography>
                 <Stack spacing={1} direction={'column'}>
+                    <div>
+                        Title:{' '}
+                        <input
+                            id='title'
+                            value={title}
+                            onChange={handleTitleChange}
+                        />
+                        <button
+                            id='btn'
+                            type='button'
+                            onClick={handleSetWinTitle}
+                        >
+                            Set
+                        </button>
+                    </div>
                     <Button variant='contained' onClick={handleClickOpenFile}>
                         Open a File
                     </Button>

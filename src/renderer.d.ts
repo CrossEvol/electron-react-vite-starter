@@ -1,9 +1,12 @@
+import { ipcRenderer } from 'electron'
+
 export interface IElectronAPI {
-    openFile: () => Promise<string>,
-  }
-  
-  declare global {
+    openFile: () => Promise<string>
+    sendMessage: (message) => Promise<void>
+}
+
+declare global {
     interface Window {
-      electronAPI: IElectronAPI
+        electronAPI: IElectronAPI
     }
-  }
+}

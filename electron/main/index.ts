@@ -56,6 +56,10 @@ async function createWindow() {
         },
     })
 
+    ipcMain.on('send-message', (event, message) => {
+        console.log(message)
+      })
+
     if (url) {
         // electron-vite-vue#298
         win.loadURL(url)
