@@ -3,6 +3,7 @@ import { ipcRenderer } from 'electron'
 export interface IElectronAPI {
     openFile: () => Promise<string>
     sendMessage: (message) => Promise<void>
+    sendTwoWayMessage: (message) => Promise<string>
 }
 
 declare global {

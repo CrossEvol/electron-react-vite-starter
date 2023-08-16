@@ -1,8 +1,8 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { BrowserWindow, app, ipcMain, shell } from 'electron'
 import { release } from 'node:os'
 import { join } from 'node:path'
+import { handleFileOpen, handleReceiveOneWayMsg, handleReceiveTwoWayMessage } from './eventHandler'
 import { update } from './update'
-import { handleFileOpen } from './eventHandler'
 
 // The built directory structure
 //
@@ -56,9 +56,7 @@ async function createWindow() {
         },
     })
 
-    ipcMain.on('send-message', (event, message) => {
-        console.log(message)
-      })
+    ipcMain.on('message:one-way', handleReceiveOneWayMsg)
 
     if (url) {
         // electron-vite-vue#298
@@ -89,6 +87,7 @@ async function createWindow() {
 
 app.whenReady().then(() => {
     ipcMain.handle('dialog:openFile', handleFileOpen)
+    ipcMain.handle('message:two-way',handleReceiveTwoWayMessage)
     createWindow()
 })
 

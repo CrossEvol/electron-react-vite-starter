@@ -2,8 +2,8 @@ const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
   openFile: () => ipcRenderer.invoke('dialog:openFile'),
-  sendMessage: (title:string) => ipcRenderer.send('send-message', title)
-
+  sendMessage: (title:string) => ipcRenderer.send('message:one-way', title),
+  sendTwoWayMessage: (message:string) => ipcRenderer.invoke('message:two-way',message),
 })
 
 // function domReady(condition: DocumentReadyState[] = ['complete', 'interactive']) {

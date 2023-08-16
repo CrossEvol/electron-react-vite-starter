@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Link from '@mui/material/Link'
 import ProTip from './ProTip'
-import { Button, Stack } from '@mui/material'
+import { Button, Divider, Stack } from '@mui/material'
 
 function Copyright() {
     return (
@@ -19,7 +19,8 @@ function Copyright() {
 }
 
 export default function App() {
-    const [title, setTitle] = React.useState('')
+    const [message, setMessage] = React.useState('')
+    const [twoWayMessage, setTwoWayMessage] = React.useState('')
     const [filePath, setFilePath] = React.useState('')
 
     const handleClickOpenFile = async () => {
@@ -27,40 +28,105 @@ export default function App() {
         setFilePath(filePathFromMain)
     }
 
-    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.target.value)
+    const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setMessage(e.target.value)
     }
 
-    const handleSetWinTitle = async () => {
-        await window.electronAPI.sendMessage(title)
+    const handleTwoWayMessageChange = (
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setTwoWayMessage(e.target.value)
+    }
+
+    const handleSendMessage = async () => {
+        await window.electronAPI.sendMessage(message)
+    }
+
+    const handleSendTwoWayMessage = async () => {
+        const returnMsg = await window.electronAPI.sendTwoWayMessage(message)
+        setTwoWayMessage(returnMsg)
     }
 
     return (
         <Container maxWidth='sm'>
             <Box sx={{ my: 4 }}>
-                <Typography variant='h4' component='h1' gutterBottom>
-                    Material UI Vite.js example in TypeScript
-                </Typography>
+                <div>
+                    <Typography
+                        component={Link}
+                        href='https://www.electronjs.org/docs/latest/tutorial/ipc'
+                        variant='h4'
+                        target='_blank'
+                        className='no-underline'
+                        gutterBottom
+                    >
+                        Inter-Process Communication
+                    </Typography>
+                </div>
+                <Divider />
                 <Stack spacing={1} direction={'column'}>
                     <div>
-                        Title:{' '}
+                        <Typography
+                            variant='button'
+                            display='block'
+                            gutterBottom
+                        >
+                            Pattern 1: Renderer to main (one-way)
+                        </Typography>
+                        Message:{' '}
                         <input
                             id='title'
-                            value={title}
-                            onChange={handleTitleChange}
+                            value={message}
+                            onChange={handleMessageChange}
                         />
                         <button
                             id='btn'
                             type='button'
-                            onClick={handleSetWinTitle}
+                            onClick={handleSendMessage}
                         >
-                            Set
+                            Send
                         </button>
                     </div>
-                    <Button variant='contained' onClick={handleClickOpenFile}>
-                        Open a File
-                    </Button>
-                    File path: <strong id='filePath'>{filePath}</strong>
+                    <Divider />
+                    <div>
+                        <Typography
+                            variant='button'
+                            display='block'
+                            gutterBottom
+                        >
+                            Pattern 2: Renderer to main (two-way)
+                        </Typography>
+                        <Button
+                            variant='contained'
+                            onClick={handleClickOpenFile}
+                        >
+                            Open a File
+                        </Button>
+                        File path: <strong id='filePath'>{filePath}</strong>
+                    </div>
+                    <Divider />
+                    <div>
+                        <Typography
+                            variant='button'
+                            display='block'
+                            gutterBottom
+                        >
+                            Pattern 2: Renderer to main (two-way) with params
+                        </Typography>
+                        Two-way Message:{' '}
+                        <input
+                            id='title'
+                            value={twoWayMessage}
+                            onChange={handleTwoWayMessageChange}
+                        />
+                        <button
+                            id='btn'
+                            type='button'
+                            onClick={handleSendTwoWayMessage}
+                        >
+                            Send Two-way Message
+                        </button>
+                    </div>
+                    <Divider />
                 </Stack>
                 <ProTip />
                 <Copyright />
