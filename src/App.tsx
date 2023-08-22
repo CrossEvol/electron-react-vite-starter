@@ -26,6 +26,8 @@ export default function App() {
         'Wait for message ...'
     )
 
+    const [usersByPrisma, setUsersByPrisma] = React.useState('')
+
     const handleClickOpenFile = async () => {
         const filePathFromMain = await window.electronAPI.openFile()
         setFilePath(filePathFromMain)
@@ -53,6 +55,15 @@ export default function App() {
     const handleGetMessageFromDb = async () => {
         const returnUser = await window.electronAPI.getUserFromDb()
         setMessageFromDb(JSON.stringify(returnUser))
+    }
+
+    const handleCreateUser = async () => {
+        await window.electronAPI.createUserByPrima()
+    }
+
+    const handleGetAllUsers = async () => {
+        const usersStr = await window.electronAPI.getUsersByPrisma()
+        setUsersByPrisma(usersStr)
     }
 
     return (
@@ -153,6 +164,25 @@ export default function App() {
                         <Typography variant='body2' gutterBottom>
                             {messageFromDb}
                         </Typography>
+                    </div>
+                    <Divider />
+                    <div>
+                        <h1>Prisma Electron Test!</h1>
+                        User Data: <span id='user-data'>{usersByPrisma}</span>
+                        <br />
+                        <span>
+                            <button id='prismaBtn' onClick={handleGetAllUsers}>
+                                {' '}
+                                Get all users{' '}
+                            </button>{' '}
+                        </span>
+                        <br />
+                        <span>
+                            <button id='createBtn' onClick={handleCreateUser}>
+                                {' '}
+                                Add a user
+                            </button>{' '}
+                        </span>
                     </div>
                     <Divider />
                 </Stack>
