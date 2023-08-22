@@ -4,6 +4,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   openFile: () => ipcRenderer.invoke('dialog:openFile'),
   sendMessage: (title:string) => ipcRenderer.send('message:one-way', title),
   sendTwoWayMessage: (message:string) => ipcRenderer.invoke('message:two-way',message),
+  getUserFromDb:()=>ipcRenderer.invoke('db:user:getOne')
 })
 
 // function domReady(condition: DocumentReadyState[] = ['complete', 'interactive']) {

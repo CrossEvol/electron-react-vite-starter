@@ -1,7 +1,12 @@
 import { BrowserWindow, app, ipcMain, shell } from 'electron'
 import { release } from 'node:os'
 import { join } from 'node:path'
-import { handleFileOpen, handleReceiveOneWayMsg, handleReceiveTwoWayMessage } from './eventHandler'
+import {
+    handleFileOpen,
+    handleGetUserFromDb,
+    handleReceiveOneWayMsg,
+    handleReceiveTwoWayMessage,
+} from './eventHandler'
 import { update } from './update'
 
 // The built directory structure
@@ -87,7 +92,8 @@ async function createWindow() {
 
 app.whenReady().then(() => {
     ipcMain.handle('dialog:openFile', handleFileOpen)
-    ipcMain.handle('message:two-way',handleReceiveTwoWayMessage)
+    ipcMain.handle('message:two-way', handleReceiveTwoWayMessage)
+    ipcMain.handle('db:user:getOne', handleGetUserFromDb)
     createWindow()
 })
 

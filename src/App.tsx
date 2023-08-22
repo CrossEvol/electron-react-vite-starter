@@ -22,6 +22,9 @@ export default function App() {
     const [message, setMessage] = React.useState('')
     const [twoWayMessage, setTwoWayMessage] = React.useState('')
     const [filePath, setFilePath] = React.useState('')
+    const [messageFromDb, setMessageFromDb] = React.useState(
+        'Wait for message ...'
+    )
 
     const handleClickOpenFile = async () => {
         const filePathFromMain = await window.electronAPI.openFile()
@@ -45,6 +48,11 @@ export default function App() {
     const handleSendTwoWayMessage = async () => {
         const returnMsg = await window.electronAPI.sendTwoWayMessage(message)
         setTwoWayMessage(returnMsg)
+    }
+
+    const handleGetMessageFromDb = async () => {
+        const returnUser = await window.electronAPI.getUserFromDb()
+        setMessageFromDb(JSON.stringify(returnUser))
     }
 
     return (
@@ -110,7 +118,7 @@ export default function App() {
                             display='block'
                             gutterBottom
                         >
-                            Pattern 2: Renderer to main (two-way) with params
+                            Pattern 3: Renderer to main (two-way) with params
                         </Typography>
                         Two-way Message:{' '}
                         <input
@@ -125,6 +133,26 @@ export default function App() {
                         >
                             Send Two-way Message
                         </button>
+                    </div>
+                    <Divider />
+                    <div>
+                        <Typography
+                            variant='button'
+                            display='block'
+                            gutterBottom
+                        >
+                            Pattern 4: Get data from the db by prisma-client
+                        </Typography>
+                        <button
+                            id='btn'
+                            type='button'
+                            onClick={handleGetMessageFromDb}
+                        >
+                            Get message from DB
+                        </button>
+                        <Typography variant='body2' gutterBottom>
+                            {messageFromDb}
+                        </Typography>
                     </div>
                     <Divider />
                 </Stack>
