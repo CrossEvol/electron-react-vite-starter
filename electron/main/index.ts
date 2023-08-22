@@ -4,10 +4,13 @@ import { join } from 'node:path'
 import {
     handleFileOpen,
     handleGetUserFromDb,
+    handlePrismaButtonRequest as handlePrismaGetUsers,
+    handlePrismaCreateUser,
     handleReceiveOneWayMsg,
     handleReceiveTwoWayMessage,
 } from './eventHandler'
 import { update } from './update'
+import { initPrisma } from './prisma.util'
 
 // The built directory structure
 //
@@ -46,6 +49,8 @@ let win: BrowserWindow | null = null
 const preload = join(__dirname, '../preload/index.js')
 const url = process.env.VITE_DEV_SERVER_URL
 const indexHtml = join(process.env.DIST, 'index.html')
+
+initPrisma()
 
 async function createWindow() {
     win = new BrowserWindow({
@@ -94,6 +99,8 @@ app.whenReady().then(() => {
     ipcMain.handle('dialog:openFile', handleFileOpen)
     ipcMain.handle('message:two-way', handleReceiveTwoWayMessage)
     ipcMain.handle('db:user:getOne', handleGetUserFromDb)
+    ipcMain.handle('prisma-create-user', handlePrismaCreateUser)
+    ipcMain.handle('prisma-get-users', handlePrismaGetUsers)
     createWindow()
 })
 
