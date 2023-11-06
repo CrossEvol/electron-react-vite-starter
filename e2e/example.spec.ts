@@ -11,35 +11,39 @@ test('homepage has title and links to intro page', async () => {
     expect(isPackaged).toBe(false)
 
     const page = await app.firstWindow()
-    
-    const inputs = await page.locator('input').all()
-    expect((await inputs[0].textContent())!.length).toBe(0)
-    expect((await inputs[1].textContent())!.length).toBe(0)
+
+    const inputOne = page
+        .locator('div')
+        .filter({
+            hasText: /^Pattern 1: Renderer to main \(one-way\)Message: Send$/,
+        })
+        .locator('#title')
+    expect((await inputOne.textContent())!.length).toBe(0)
+    const inputTwo = page.locator('#title').nth(1)
+    expect((await inputTwo.textContent())!.length).toBe(0)
 
     const sendBtn = page.getByRole('button', { name: 'Send', exact: true })
     await sendBtn.click()
     const openFileBtn = page.getByText('Open a File')
     await openFileBtn.click()
+
     const sendTwoWayMsgBtn = page.getByRole('button', {
         name: 'Send Two-way Message',
         exact: true,
     })
+
     await sendTwoWayMsgBtn.click()
-    const getDbMsgBtn = page.getByText('Get message from DB')
+    expect((await inputTwo.textContent())!.length).toBeGreaterThan(3)
+
+    const getDbMsgBtn = page.getByRole('button', {
+        name: 'Get message from DB',
+    })
     await getDbMsgBtn.click()
-    const getAllUsersBtn = page.getByText('Get all users')
+    const getAllUsersBtn = page.getByRole('button', { name: 'Get all users' })
     await getAllUsersBtn.click()
-    const addUserBtn = page.getByText('Add a user')
+    const addUserBtn = page.getByRole('button', { name: 'Add a user' })
     await addUserBtn.click()
 
-    /* 
-  Send
-Open a File
-Send Two-way Message
-Get message from DB
-Get all users
-Add a user
-  */
     expect(await page.title()).toBe('Electron + Vite + React')
     await page.screenshot({ path: 'e2e/screenshots/example.png' })
 })
