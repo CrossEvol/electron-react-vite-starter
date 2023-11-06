@@ -48,7 +48,7 @@ export default function App() {
     }
 
     const handleSendTwoWayMessage = async () => {
-        const returnMsg = await window.electronAPI.sendTwoWayMessage(message)
+        const returnMsg = await window.electronAPI.sendTwoWayMessage(twoWayMessage)
         setTwoWayMessage(returnMsg)
     }
 
