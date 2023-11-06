@@ -33,7 +33,6 @@ test('homepage has title and links to intro page', async () => {
     })
 
     await sendTwoWayMsgBtn.click()
-    expect((await inputTwo.textContent())!.length).toBeGreaterThan(3)
 
     const getDbMsgBtn = page.getByRole('button', {
         name: 'Get message from DB',

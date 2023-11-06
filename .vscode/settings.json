@@ -9,5 +9,12 @@
       ],
       "url": "https://json.schemastore.org/electron-builder"
     }
-  ]
+  ],
+  "workbench.colorCustomizations": {
+    "editor.lineHighlightBackground": "#1073cf2d",
+    "editor.lineHighlightBorder": "#9fced11f",
+    "activityBar.background": "#362D00",
+    "titleBar.activeBackground": "#4C4000",
+    "titleBar.activeForeground": "#FFFAE3"
+  }
 }
