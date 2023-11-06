@@ -48,7 +48,9 @@ export default function App() {
     }
 
     const handleSendTwoWayMessage = async () => {
-        const returnMsg = await window.electronAPI.sendTwoWayMessage(twoWayMessage)
+        const returnMsg = await window.electronAPI.sendTwoWayMessage(
+            twoWayMessage
+        )
         setTwoWayMessage(returnMsg)
     }
 
@@ -92,13 +94,9 @@ export default function App() {
                             Pattern 1: Renderer to main (one-way)
                         </Typography>
                         Message:{' '}
-                        <input
-                            id='title'
-                            value={message}
-                            onChange={handleMessageChange}
-                        />
+                        <input value={message} onChange={handleMessageChange} />
                         <button
-                            id='btn'
+                            id='send-one'
                             type='button'
                             onClick={handleSendMessage}
                         >
@@ -133,12 +131,13 @@ export default function App() {
                         </Typography>
                         Two-way Message:{' '}
                         <input
-                            id='title'
+                            title='Two'
+                            data-testid='two'
                             value={twoWayMessage}
                             onChange={handleTwoWayMessageChange}
                         />
                         <button
-                            id='btn'
+                            id='send-two'
                             type='button'
                             onClick={handleSendTwoWayMessage}
                         >
@@ -161,14 +160,14 @@ export default function App() {
                         >
                             Get message from DB
                         </button>
-                        <Typography variant='body2' gutterBottom>
+                        <Typography data-test-id='random-user' variant='body2' gutterBottom>
                             {messageFromDb}
                         </Typography>
                     </div>
                     <Divider />
                     <div>
                         <h1>Prisma Electron Test!</h1>
-                        User Data: <span id='user-data'>{usersByPrisma}</span>
+                        User Data: <span data-test-id='user-data'>{usersByPrisma}</span>
                         <br />
                         <span>
                             <button id='prismaBtn' onClick={handleGetAllUsers}>
