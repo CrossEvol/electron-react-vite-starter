@@ -36,3 +36,6 @@ yarn.lock
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# playwright
+e2e/screenshots/
