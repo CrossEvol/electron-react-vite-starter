@@ -160,14 +160,19 @@ export default function App() {
                         >
                             Get message from DB
                         </button>
-                        <Typography data-test-id='random-user' variant='body2' gutterBottom>
+                        <Typography
+                            data-test-id='random-user'
+                            variant='body2'
+                            gutterBottom
+                        >
                             {messageFromDb}
                         </Typography>
                     </div>
                     <Divider />
                     <div>
                         <h1>Prisma Electron Test!</h1>
-                        User Data: <span data-test-id='user-data'>{usersByPrisma}</span>
+                        User Data:{' '}
+                        <span data-test-id='user-data'>{usersByPrisma}</span>
                         <br />
                         <span>
                             <button id='prismaBtn' onClick={handleGetAllUsers}>
