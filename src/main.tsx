@@ -1,18 +1,16 @@
-import { ThemeProvider } from '@emotion/react'
-import { CssBaseline } from '@mui/material'
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import * as React from 'react'
+import * as ReactDOM from 'react-dom/client'
 import App from './App'
-import './input.css'
-import './samples/node-api'
-import theme from './theme'
+import './index.css'
+import ColorModeProvider from './providers/color-mode-provider'
+import { JotaiProvider } from './providers/jotai-provider'
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <App />
-        </ThemeProvider>
-    </React.StrictMode>
+        <ColorModeProvider>
+            <JotaiProvider>
+                <App />
+            </JotaiProvider>
+        </ColorModeProvider>
+    </React.StrictMode>,
 )
-postMessage({ payload: 'removeLoading' }, '*')

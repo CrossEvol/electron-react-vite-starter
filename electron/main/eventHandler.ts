@@ -16,7 +16,7 @@ export const handleReceiveOneWayMsg = (
     console.log(message)
 }
 
-export const handleReceiveTwoWayMessage = (
+export const  handleReceiveTwoWayMessage = (
     event: IpcMainInvokeEvent,
     message: string
 ) => {
