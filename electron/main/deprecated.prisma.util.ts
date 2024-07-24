@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client'
 import { app } from 'electron'
 import isDev from 'electron-is-dev'
 import fs from 'fs'
@@ -35,13 +34,5 @@ export const buildPrismaClient = () => {
         ? join(__dirname, './prisma/dev.db')
         : path.join(app.getPath('userData'), 'database.db')
 
-    const prisma = new PrismaClient({
-        // datasources: {
-        //     db: {
-        //         url: `file:${dbPath}`,
-        //     },
-        // },
-    })
-
-    return prisma
+    return null
 }

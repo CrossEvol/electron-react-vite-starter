@@ -1,12 +1,10 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  openFile: () => ipcRenderer.invoke('dialog:openFile'),
-  sendMessage: (title:string) => ipcRenderer.send('message:one-way', title),
-  sendTwoWayMessage: (message:string) => ipcRenderer.invoke('message:two-way',message),
-  getUserFromDb:()=>ipcRenderer.invoke('db:user:getOne'),
-  createUserByPrima:()=>ipcRenderer.invoke('prisma-create-user'),
-  getUsersByPrisma:()=>ipcRenderer.invoke('prisma-get-users')
+    openFile: () => ipcRenderer.invoke('dialog:openFile'),
+    sendMessage: (title: string) => ipcRenderer.send('message:one-way', title),
+    sendTwoWayMessage: (message: string) =>
+        ipcRenderer.invoke('message:two-way', message),
 })
 
 // function domReady(condition: DocumentReadyState[] = ['complete', 'interactive']) {

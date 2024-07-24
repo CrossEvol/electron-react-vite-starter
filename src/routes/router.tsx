@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createHashRouter } from 'react-router-dom'
 import Layout from '../layout'
 import Counter from '../views/counter'
 import Home from '../views/home'
@@ -7,7 +7,7 @@ import SignIn from '../views/sign-in'
 import SignUp from '../views/sign-up'
 import TodoList from '../views/todo-list'
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
     {
         path: '/',
         Component: Layout,
