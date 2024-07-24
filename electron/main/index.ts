@@ -3,14 +3,11 @@ import { release } from 'node:os'
 import { join } from 'node:path'
 import {
     handleFileOpen,
-    handleGetUserFromDb,
-    handlePrismaButtonRequest as handlePrismaGetUsers,
-    handlePrismaCreateUser,
     handleReceiveOneWayMsg,
     handleReceiveTwoWayMessage,
 } from './eventHandler'
 import { update } from './update'
-import { initPrisma } from './prisma.util'
+import { initPrisma } from './deprecated.prisma.util'
 
 // The built directory structure
 //
@@ -98,9 +95,6 @@ async function createWindow() {
 app.whenReady().then(() => {
     ipcMain.handle('dialog:openFile', handleFileOpen)
     ipcMain.handle('message:two-way', handleReceiveTwoWayMessage)
-    ipcMain.handle('db:user:getOne', handleGetUserFromDb)
-    ipcMain.handle('prisma-create-user', handlePrismaCreateUser)
-    ipcMain.handle('prisma-get-users', handlePrismaGetUsers)
     createWindow()
 })
 
