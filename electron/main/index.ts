@@ -4,8 +4,10 @@ import { join } from 'node:path'
 import { initPrisma } from './deprecated.prisma.util'
 import {
     handleFileOpen,
+    handlePortFromWorkerThread,
     handleReceiveOneWayMsg,
     handleReceiveTwoWayMessage,
+    handleSendServerPort,
 } from './eventHandler'
 import { update } from './update'
 import { startServerInWorker } from './util/worker.util'
@@ -67,6 +69,7 @@ async function createWindow() {
     })
 
     ipcMain.on('message:one-way', handleReceiveOneWayMsg)
+    ipcMain.on('server_port', handlePortFromWorkerThread)
 
     if (url) {
         // electron-vite-vue#298
@@ -98,6 +101,7 @@ async function createWindow() {
 app.whenReady().then(() => {
     ipcMain.handle('dialog:openFile', handleFileOpen)
     ipcMain.handle('message:two-way', handleReceiveTwoWayMessage)
+    ipcMain.handle('server-port', handleSendServerPort)
     createWindow()
 })
 

@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
+import React from 'react'
 import ProTip from '../ProTip'
 
 function Copyright() {
@@ -18,6 +19,15 @@ function Copyright() {
 }
 
 export default function Home() {
+    React.useEffect(() => {
+        handleUpdatePort()
+    }, [])
+
+    const handleUpdatePort = async () => {
+        const { port } = await window.electronAPI.updatePort()
+        localStorage.setItem('port', port.toString())
+    }
+
     return (
         <Container maxWidth='sm'>
             <Box sx={{ my: 4 }}>
