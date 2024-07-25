@@ -5,6 +5,7 @@ import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 import React from 'react'
 import ProTip from '../ProTip'
+import fetchClient from '@/utils/fetch.client'
 
 function Copyright() {
     return (
@@ -28,13 +29,22 @@ export default function Home() {
         localStorage.setItem('port', port.toString())
     }
 
+    const handleHttpRequest = async () => {
+        const res = await fetchClient.get(
+            `http://localhost:${localStorage.getItem('port')}/users`
+        )
+        console.log(res)
+    }
+
     return (
         <Container maxWidth='sm'>
             <Box sx={{ my: 4 }}>
                 <Typography variant='h4' component='h1' sx={{ mb: 2 }}>
                     Material UI Vite.js example in TypeScript
                 </Typography>
-                <Button variant='contained'>Contained</Button>
+                <Button variant='contained' onClick={handleHttpRequest}>
+                    Test HttpRequest
+                </Button>
                 <h1 className='text-3xl font-bold underline'>Hello world!</h1>
                 <ProTip />
                 <Copyright />

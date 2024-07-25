@@ -39,3 +39,6 @@ yarn.lock
 
 # playwright
 e2e/screenshots/
+
+# database 
+*.db
