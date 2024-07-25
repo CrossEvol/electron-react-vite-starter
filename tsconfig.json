@@ -32,7 +32,10 @@
   "include": [
     "src",
     "electron",
-    "prisma"
+    "prisma",
+    "**/*.ts",
+    "**/*.tsx",
+    "./vitest.setup.ts"
   ],
   "references": [
     {
