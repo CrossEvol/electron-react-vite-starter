@@ -1,13 +1,14 @@
 import { BrowserWindow, app, ipcMain, shell } from 'electron'
 import { release } from 'node:os'
 import { join } from 'node:path'
+import { initPrisma } from './deprecated.prisma.util'
 import {
     handleFileOpen,
     handleReceiveOneWayMsg,
     handleReceiveTwoWayMessage,
 } from './eventHandler'
 import { update } from './update'
-import { initPrisma } from './deprecated.prisma.util'
+import { startServerInWorker } from './util/worker.util'
 
 // The built directory structure
 //
@@ -48,6 +49,8 @@ const url = process.env.VITE_DEV_SERVER_URL
 const indexHtml = join(process.env.DIST, 'index.html')
 
 initPrisma()
+
+startServerInWorker()
 
 async function createWindow() {
     win = new BrowserWindow({

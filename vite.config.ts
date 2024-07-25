@@ -61,7 +61,28 @@ export default defineConfig(({ command }) => {
               },
             },
           },
-        }
+        },
+        {
+          // Main-Process entry file of the Electron App.
+          entry: 'electron/main/worker.ts',
+          onstart(options) {
+            if (process.env.VSCODE_DEBUG) {
+              console.log(/* For `.vscode/.debug.script.mjs` */'[startup] Electron App')
+            } else {
+              options.startup()
+            }
+          },
+          vite: {
+            build: {
+              sourcemap,
+              minify: isBuild,
+              outDir: 'dist-electron/worker',
+              rollupOptions: {
+                external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
+              },
+            },
+          },
+        },
       ]),
       // Use Node.js API in the Renderer-process
       renderer(),
