@@ -19,6 +19,20 @@
     "plugin:tailwindcss/recommended"
   ],
   "parser": "@typescript-eslint/parser",
+  "ignorePatterns": [
+    "src/components/ui",
+    "node_modules/",
+    "dist/",
+    "dist-electron",
+    "build/",
+    "public/",
+    ".vscode",
+    "logs",
+    "playwright-report",
+    "release",
+    "packages",
+    "pages"
+  ],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -26,7 +40,12 @@
     "ecmaVersion": 11,
     "sourceType": "module"
   },
-  "plugins": ["react", "react-hooks", "@typescript-eslint", "tailwindcss"],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint",
+    "tailwindcss"
+  ],
   "rules": {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
