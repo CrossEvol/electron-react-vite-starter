@@ -10,7 +10,7 @@ import {
     handleSendServerPort,
 } from './eventHandler'
 import { update } from './update'
-import { startServerInWorker } from './util/worker.util'
+import { startServerInWorker } from './hono-server/server-in-worker'
 
 // The built directory structure
 //
