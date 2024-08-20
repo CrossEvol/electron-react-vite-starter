@@ -1,14 +1,25 @@
 import Database from 'better-sqlite3'
 import { eq } from 'drizzle-orm'
 import { drizzle } from 'drizzle-orm/better-sqlite3'
-import { projects, users } from './schema'
+import { ProjectsTable, UsersTable } from './schema'
 
-const sqlite = new Database('./sqlite.db')
-const db = drizzle(sqlite)
+const databasePath = 'sqlite.db'
+
+const sqlite = new Database(databasePath)
+// const sqlite = new Database(
+//     isDev()
+//         ? join(process.cwd(), databasePath)
+//         : join(process.resourcesPath, databasePath)
+// )
+
+console.log('----------------------------->')
+console.log(sqlite)
+console.log('----------------------------->')
+const db = drizzle(sqlite, { logger: true })
 
 export const insertUserWithProject = async () => {
     const res = db
-        .insert(users)
+        .insert(UsersTable)
         .values([
             {
                 fullName: 'User_' + Date.now().toString(),
@@ -18,7 +29,7 @@ export const insertUserWithProject = async () => {
 
     const userId = res.lastInsertRowid
 
-    db.insert(projects)
+    db.insert(ProjectsTable)
         .values([
             {
                 name: 'Project_' + Date.now().toString(),
@@ -29,8 +40,8 @@ export const insertUserWithProject = async () => {
 
     const allUsersAndProjects = db
         .select()
-        .from(users)
-        .leftJoin(projects, eq(users.id, projects.ownerId))
+        .from(UsersTable)
+        .leftJoin(ProjectsTable, eq(UsersTable.id, ProjectsTable.ownerId))
         .all()
 
     console.log(allUsersAndProjects)
