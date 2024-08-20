@@ -6,11 +6,11 @@ import ColorModeProvider from './providers/color-mode-provider'
 import { JotaiProvider } from './providers/jotai-provider'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
-        <ColorModeProvider>
-            <JotaiProvider>
-                <App />
-            </JotaiProvider>
-        </ColorModeProvider>
-    </React.StrictMode>,
+  <React.StrictMode>
+    <ColorModeProvider>
+      <JotaiProvider>
+        <App />
+      </JotaiProvider>
+    </ColorModeProvider>
+  </React.StrictMode>
 )

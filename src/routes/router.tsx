@@ -8,16 +8,16 @@ import SignUp from '../views/sign-up'
 import TodoList from '../views/todo-list'
 
 export const router = createHashRouter([
-    {
-        path: '/',
-        Component: Layout,
-        children: [
-            { path: '', index: true, Component: Home },
-            { path: 'sign-in', Component: SignIn },
-            { path: 'sign-up', Component: SignUp },
-            { path: 'counter', Component: Counter },
-            { path: 'todo', Component: TodoList },
-            { path: 'len', Component: Len },
-        ],
-    },
+  {
+    path: '/',
+    Component: Layout,
+    children: [
+      { path: '', index: true, Component: Home },
+      { path: 'sign-in', Component: SignIn },
+      { path: 'sign-up', Component: SignUp },
+      { path: 'counter', Component: Counter },
+      { path: 'todo', Component: TodoList },
+      { path: 'len', Component: Len }
+    ]
+  }
 ])
