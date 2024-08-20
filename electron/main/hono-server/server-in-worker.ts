@@ -7,7 +7,7 @@ type Message = {
 }
 
 export const startServerInWorker = () => {
-    const worker = new Worker(path.resolve(__dirname, '..', 'worker/worker.js'))
+    const worker = new Worker(path.resolve(__dirname, 'worker.js'))
 
     worker.on('message', (message: Message) => {
         console.log('Received message from Hono worker:', message)
