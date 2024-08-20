@@ -25,6 +25,11 @@
     "studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "better-sqlite3": "^11.1.2",
+    "drizzle-orm": "^0.27.2",
+    "electron-updater": "^5.3.0"
+  },
+  "devDependencies": {
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@hono/node-server": "^1.12.0",
@@ -32,20 +37,13 @@
     "@hono/zod-openapi": "^0.15.1",
     "@mui/icons-material": "^5",
     "@mui/material": "^5",
-    "better-sqlite3": "^11.1.2",
-    "drizzle-orm": "^0.27.2",
-    "electron-updater": "^5.3.0",
     "hono": "^4.5.1",
     "jotai": "^2.9.1",
     "localforage": "^1.10.0",
-    "react": "^18",
-    "react-dom": "^18",
     "react-router": "^6.25.1",
     "react-router-dom": "^6.25.1",
     "zod": "^3.23.8",
-    "zustand": "^4.5.4"
-  },
-  "devDependencies": {
+    "zustand": "^4.5.4",
     "@electron/rebuild": "^3.6.0",
     "@playwright/test": "^1.40.0",
     "@testing-library/jest-dom": "^6.4.8",
@@ -90,7 +88,8 @@
     "vite": "^5",
     "vite-plugin-electron": "^0.11.2",
     "vite-plugin-electron-renderer": "^0.14.1",
-    "vitest": "^2.0.4"
+    "vitest": "^2.0.4",
+    "winston": "^3.14.2"
   },
   "engines": {
     "node": "^14.18.0 || >=16.0.0"

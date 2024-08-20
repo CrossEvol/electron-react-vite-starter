@@ -1,20 +1,15 @@
 import Database from 'better-sqlite3'
 import { eq } from 'drizzle-orm'
 import { drizzle } from 'drizzle-orm/better-sqlite3'
+import { join } from 'node:path'
+import { isDev } from '../util/electron.util'
 import { ProjectsTable, UsersTable } from './schema'
 
 const databasePath = 'sqlite.db'
 
-const sqlite = new Database(databasePath)
-// const sqlite = new Database(
-//     isDev()
-//         ? join(process.cwd(), databasePath)
-//         : join(process.resourcesPath, databasePath)
-// )
-
-console.log('----------------------------->')
-console.log(sqlite)
-console.log('----------------------------->')
+const sqlite = new Database(
+    isDev() ? databasePath : join(process.resourcesPath, databasePath)
+)
 const db = drizzle(sqlite, { logger: true })
 
 export const insertUserWithProject = async () => {
