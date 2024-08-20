@@ -8,12 +8,7 @@
         output: 'release/${version}',
     },
     files: ['dist-electron', 'dist'],
-    extraResources: [
-        'sqlite.db',
-        'prisma/**/*',
-        'node_modules/.prisma/**/*',
-        'node_modules/@prisma/client/**/*',
-    ],
+    extraResources: ['sqlite.db', 'logs'],
     mac: {
         artifactName: '${productName}_${version}.${ext}',
         target: ['dmg', 'zip'],
