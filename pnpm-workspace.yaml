@@ -1,4 +1,5 @@
 onlyBuiltDependencies:
+  - '@tailwindcss/oxide'
   - better-sqlite3
   - electron
   - es5-ext

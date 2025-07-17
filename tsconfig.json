@@ -35,11 +35,15 @@
     "prisma",
     "**/*.ts",
     "**/*.tsx",
-    "./vitest.setup.ts"
+    "./vitest.setup.ts",
+    "vite.config.mts"
   ],
   "references": [
     {
       "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
     }
   ]
 }

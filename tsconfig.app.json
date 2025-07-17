@@ -4,10 +4,16 @@
     "module": "ESNext",
     "moduleResolution": "node16",
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
   },
   "include": [
-    "vite.config.mts",
+    "vite.config.ts",
     "package.json",
     "jest.config.js"
   ]
