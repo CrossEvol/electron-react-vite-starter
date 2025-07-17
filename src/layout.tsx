@@ -1,134 +1,120 @@
-import AbcOutlinedIcon from '@mui/icons-material/AbcOutlined'
-import AddAlarmOutlinedIcon from '@mui/icons-material/AddAlarmOutlined'
-import Brightness4Icon from '@mui/icons-material/Brightness4'
-import Brightness7Icon from '@mui/icons-material/Brightness7'
-import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined'
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
-import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined'
-import MenuIcon from '@mui/icons-material/Menu'
-import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined'
-import { CssBaseline, useTheme } from '@mui/material'
-import AppBar from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
-import Divider from '@mui/material/Divider'
-import Drawer from '@mui/material/Drawer'
-import IconButton from '@mui/material/IconButton'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import * as React from 'react'
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { Separator } from '@/components/ui/separator'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from '@/components/ui/sheet'
+
+import { useTheme } from '@/providers/color-mode-provider'
+import {
+  AlarmPlus,
+  CaseSensitive,
+  Home,
+  List,
+  LogIn,
+  Menu,
+  Moon,
+  Sun,
+  UserPlus
+} from 'lucide-react'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { ColorModeContext } from './providers/color-mode-provider'
 
 const Layout = () => {
-  const [open, setOpen] = React.useState(false)
   const navigate = useNavigate()
-  const theme = useTheme()
-  const colorMode = React.useContext(ColorModeContext)
+  const { setTheme } = useTheme()
 
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen)
-  }
+  const menuItems = [
+    { icon: <Home />, text: 'Home', path: '/' },
+    { icon: <LogIn />, text: 'SignIn', path: '/sign-in' },
+    { icon: <UserPlus />, text: 'SignUp', path: '/sign-up' }
+  ]
 
-  const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
-      <List>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate('/')}>
-            <ListItemIcon>
-              <HomeOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={'Home'} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate('/sign-in')}>
-            <ListItemIcon>
-              <LoginOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={'SignIn'} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate('/sign-up')}>
-            <ListItemIcon>
-              <PersonAddOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={'SignUp'} />
-          </ListItemButton>
-        </ListItem>
-      </List>
-      <Divider />
-      <List>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate('/todo')}>
-            <ListItemIcon>
-              <FormatListNumberedOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={'Todo'} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate('/counter')}>
-            <ListItemIcon>
-              <AddAlarmOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={'Counter'} />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate('/len')}>
-            <ListItemIcon>
-              <AbcOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary={'Len'} />
-          </ListItemButton>
-        </ListItem>
-      </List>
-    </Box>
-  )
+  const featureItems = [
+    { icon: <List />, text: 'Todo', path: '/todo' },
+    { icon: <AlarmPlus />, text: 'Counter', path: '/counter' },
+    { icon: <CaseSensitive />, text: 'Len', path: '/len' }
+  ]
 
   return (
     <div id="app">
-      <CssBaseline />
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-              onClick={toggleDrawer(true)}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              MUI
-            </Typography>
-            <IconButton
-              sx={{ ml: 1 }}
-              onClick={colorMode.toggleColorMode}
-              color="inherit"
-            >
-              {theme.palette.mode === 'dark' ? (
-                <Brightness7Icon />
-              ) : (
-                <Brightness4Icon />
-              )}
-            </IconButton>
-          </Toolbar>
-        </AppBar>
+      <header className="flex items-center justify-between border-b p-4">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon">
+              <Menu />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left">
+            <SheetHeader>
+              <SheetTitle>Menu</SheetTitle>
+            </SheetHeader>
+            <nav className="mt-4">
+              <ul>
+                {menuItems.map((item, index) => (
+                  <li key={index}>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start"
+                      onClick={() => navigate(item.path)}
+                    >
+                      {item.icon}
+                      <span className="ml-2">{item.text}</span>
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+              <Separator className="my-4" />
+              <ul>
+                {featureItems.map((item, index) => (
+                  <li key={index}>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start"
+                      onClick={() => navigate(item.path)}
+                    >
+                      {item.icon}
+                      <span className="ml-2">{item.text}</span>
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </SheetContent>
+        </Sheet>
+        <h1 className="text-xl font-semibold">Shadcn-UI</h1>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon">
+              <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+              <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+              <span className="sr-only">Toggle theme</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => setTheme('light')}>
+              Light
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme('dark')}>
+              Dark
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme('system')}>
+              System
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </header>
+      <main>
         <Outlet />
-      </Box>
-      <Drawer open={open} onClose={toggleDrawer(false)}>
-        {DrawerList}
-      </Drawer>
+      </main>
     </div>
   )
 }

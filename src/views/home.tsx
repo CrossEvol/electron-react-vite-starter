@@ -1,21 +1,17 @@
-import { Button } from '@mui/material'
-import Box from '@mui/material/Box'
-import Container from '@mui/material/Container'
-import Link from '@mui/material/Link'
-import Typography from '@mui/material/Typography'
+import { Button } from '@/components/ui/button'
+import fetchClient from '@/utils/fetch.client'
 import React from 'react'
 import ProTip from '../ProTip'
-import fetchClient from '@/utils/fetch.client'
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="text.secondary" align="center">
+    <p className="text-sm text-muted-foreground text-center">
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <a href="https://mui.com/" className="underline">
         Your Website
-      </Link>{' '}
+      </a>{' '}
       {new Date().getFullYear()}.
-    </Typography>
+    </p>
   )
 }
 
@@ -37,18 +33,16 @@ export default function Home() {
   }
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
+    <div className="container mx-auto sm:max-w-sm">
+      <div className="my-4">
+        <h1 className="text-2xl font-semibold mb-2">
           Material UI Vite.js example in TypeScript
-        </Typography>
-        <Button variant="contained" onClick={handleHttpRequest}>
-          Test HttpRequest
-        </Button>
+        </h1>
+        <Button onClick={handleHttpRequest}>Test HttpRequest</Button>
         <h1 className="text-3xl font-bold underline">Hello world!</h1>
         <ProTip />
         <Copyright />
-      </Box>
-    </Container>
+      </div>
+    </div>
   )
 }
