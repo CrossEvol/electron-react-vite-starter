@@ -43,7 +43,7 @@ const TodoList: React.FC = () => {
               {todo.text}
             </span>
             {/* <span
-                            className={`flex-grow cursor-pointer ${
+                            className={`grow cursor-pointer ${
                                 todo.completed ? 'line-through' : ''
                             }`}
                             onClick={() => toggleTodo(todo.id)}
