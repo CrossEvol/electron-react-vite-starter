@@ -1,5 +1,5 @@
 import React from 'react'
-import { RouterProvider } from 'react-router-dom'
+import { RouterProvider } from '@tanstack/react-router'
 import { router } from './routes/router'
 
 const App = () => {

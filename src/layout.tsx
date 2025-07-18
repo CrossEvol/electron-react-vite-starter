@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/sheet'
 
 import { useTheme } from '@/providers/color-mode-provider'
+import { useNavigate } from '@tanstack/react-router'
 import {
   AlarmPlus,
   CaseSensitive,
@@ -26,10 +27,10 @@ import {
   Sun,
   UserPlus
 } from 'lucide-react'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { PropsWithChildren } from 'react'
 
-const Layout = () => {
-  const navigate = useNavigate()
+const Layout = ({ children }: PropsWithChildren) => {
+  const navigate = useNavigate({ from: '/' })
   const { setTheme } = useTheme()
 
   const menuItems = [
@@ -39,7 +40,7 @@ const Layout = () => {
   ]
 
   const featureItems = [
-    { icon: <List />, text: 'Todo', path: '/todo' },
+    { icon: <List />, text: 'Todo', path: '/todo-list' },
     { icon: <AlarmPlus />, text: 'Counter', path: '/counter' },
     { icon: <CaseSensitive />, text: 'Len', path: '/len' }
   ]
@@ -63,8 +64,8 @@ const Layout = () => {
                   <li key={index}>
                     <Button
                       variant="ghost"
-                      className="w-full justify-start"
-                      onClick={() => navigate(item.path)}
+                      className="w-full cursor-pointer justify-start"
+                      onClick={() => navigate({ href: item.path })}
                     >
                       {item.icon}
                       <span className="ml-2">{item.text}</span>
@@ -78,8 +79,8 @@ const Layout = () => {
                   <li key={index}>
                     <Button
                       variant="ghost"
-                      className="w-full justify-start"
-                      onClick={() => navigate(item.path)}
+                      className="w-full cursor-pointer justify-start"
+                      onClick={() => navigate({ href: item.path })}
                     >
                       {item.icon}
                       <span className="ml-2">{item.text}</span>
@@ -112,9 +113,7 @@ const Layout = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </header>
-      <main>
-        <Outlet />
-      </main>
+      <main>{children}</main>
     </div>
   )
 }

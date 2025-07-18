@@ -1,7 +1,6 @@
-import { useRouteError } from 'react-router-dom'
+import { ErrorComponentProps } from '@tanstack/react-router'
 
-export default function ErrorPage() {
-  const error: any = useRouteError()
+export default function ErrorPage({ error }: ErrorComponentProps) {
   console.error(error)
 
   return (
@@ -9,7 +8,7 @@ export default function ErrorPage() {
       <h1>Oops!</h1>
       <p>Sorry, an unexpected error has occurred.</p>
       <p>
-        <i>{error.statusText || error.message}</i>
+        <i>{(error as Error).message}</i>
       </p>
     </div>
   )

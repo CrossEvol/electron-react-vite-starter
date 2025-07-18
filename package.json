@@ -89,6 +89,8 @@
     "jotai": "^2.9.1",
     "jsdom": "^24.1.1",
     "localforage": "^1.10.0",
+    "lucide-react": "^0.525.0",
+    "openapi-typescript": "7.8.0",
     "playwright": "^1.40.0",
     "postcss": "^8.4.39",
     "prettier": "3.6.2",
@@ -96,8 +98,6 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.60.0",
-    "react-router": "^6.25.1",
-    "react-router-dom": "^6.25.1",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.11",
     "ts-node": "^10.9.1",
@@ -113,8 +113,8 @@
     "winston": "^3.14.2",
     "zod": "^3.23.8",
     "zustand": "^4.5.4",
-    "lucide-react": "^0.525.0",
-    "openapi-typescript": "7.8.0"
+    "@tanstack/react-router": "^1.128.3",
+    "@tanstack/react-router-devtools": "^1.128.3"
   },
   "engines": {
     "node": "^14.18.0 || >=16.0.0"
