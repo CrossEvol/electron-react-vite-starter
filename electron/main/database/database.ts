@@ -1,19 +1,20 @@
-import Database from 'better-sqlite3'
+import { createClient } from '@libsql/client'
 import { eq } from 'drizzle-orm'
-import { drizzle } from 'drizzle-orm/better-sqlite3'
+import { drizzle } from 'drizzle-orm/libsql'
 import { join } from 'node:path'
 import { isDev } from '../util/electron.util'
 import { ProjectsTable, UsersTable } from './schema'
 
-const databasePath = 'sqlite.db'
+const databasePath = 'file:sqlite.db'
+const resourcesPath = `file:${join(process.resourcesPath, 'sqlite.db')}`
 
-const sqlite = new Database(
-  isDev() ? databasePath : join(process.resourcesPath, databasePath)
-)
-const db = drizzle(sqlite, { logger: true })
+const client = createClient({
+  url: isDev() ? databasePath : resourcesPath
+})
+const db = drizzle(client, { logger: true })
 
 export const getUserWithProjects = async () => {
-  const result = db
+  const result = await db
     .select()
     .from(UsersTable)
     .leftJoin(ProjectsTable, eq(UsersTable.id, ProjectsTable.ownerId))

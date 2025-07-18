@@ -4,8 +4,7 @@ export default {
   schema: './electron/main/database/schema.ts',
   out: './drizzle',
   dialect: 'sqlite',
-  driver: 'durable-sqlite',
   dbCredentials: {
-    url: './sqlite.db'
+    url: 'file:sqlite.db'
   }
 } satisfies Config

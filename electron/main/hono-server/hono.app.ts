@@ -56,7 +56,6 @@ app.openapi(
   }),
   async (c) => {
     const res = await getUserWithProjects()
-
     return c.json({ data: res })
   }
 )

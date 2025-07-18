@@ -1,8 +1,8 @@
-import { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3'
+import { LibSQLDatabase } from 'drizzle-orm/libsql'
 import { ProjectsTable, UsersTable } from './schema'
 
-export const seed = (db: BetterSQLite3Database<Record<string, never>>) => {
-  const res = db
+export const seed = async (db: LibSQLDatabase<Record<string, never>>) => {
+  const res = await db
     .insert(UsersTable)
     .values([
       {
@@ -17,7 +17,7 @@ export const seed = (db: BetterSQLite3Database<Record<string, never>>) => {
     .values(
       Array.from({ length: 3 }).map((_, idx) => ({
         name: `Project_${idx + 1}`,
-        ownerId: userId as number
+        ownerId: userId as unknown as number
       }))
     )
     .run()
