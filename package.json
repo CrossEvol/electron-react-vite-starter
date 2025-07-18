@@ -24,9 +24,14 @@
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "e2e": "playwright test",
     "test": "vitest",
-    "generate": "drizzle-kit generate",
-    "migrate": "tsx migrate.ts",
-    "studio": "drizzle-kit studio"
+    "db:gen": "drizzle-kit generate",
+    "db:migrate": "tsx migrate.ts",
+    "db:push": "drizzle-kit push",
+    "db:pull": "drizzle-kit pull",
+    "db:export": "drizzle-kit export",
+    "db:check": "drizzle-kit check",
+    "db:up": "drizzle-kit up",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@libsql/client": "^0.15.10",
