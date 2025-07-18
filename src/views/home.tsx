@@ -1,11 +1,14 @@
 import { Button } from '@/components/ui/button'
+import type { paths } from '@/schemas/openapi3/openapi.schema.d'
 import fetchClient from '@/utils/fetch.client'
 import React from 'react'
 import ProTip from '../ProTip'
 
+type UserResponse = paths['/users']['get']['responses'][200]['content']['application/json']
+
 function Copyright() {
   return (
-    <p className="text-sm text-muted-foreground text-center">
+    <p className="text-muted-foreground text-center text-sm">
       {'Copyright © '}
       <a href="https://mui.com/" className="underline">
         Your Website
@@ -26,8 +29,8 @@ export default function Home() {
   }
 
   const handleHttpRequest = async () => {
-    const res = await fetchClient.get(
-      `http://localhost:${localStorage.getItem('port')}/users`
+    const res = await fetchClient.get<UserResponse>(
+      `http://localhost:${localStorage.getItem('port')}/users`,
     )
     console.log(res)
   }
@@ -35,7 +38,7 @@ export default function Home() {
   return (
     <div className="container mx-auto sm:max-w-sm">
       <div className="my-4">
-        <h1 className="text-2xl font-semibold mb-2">
+        <h1 className="mb-2 text-2xl font-semibold">
           Material UI Vite.js example in TypeScript
         </h1>
         <Button onClick={handleHttpRequest}>Test HttpRequest</Button>

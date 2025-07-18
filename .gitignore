@@ -44,3 +44,6 @@ e2e/screenshots/
 *.db
 .aider*
 .env
+
+# Generated files
+src/schemas/openapi3/openapi.schema.d.ts

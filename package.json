@@ -16,6 +16,8 @@
     "build": "tsc && vite build && electron-builder",
     "rebuild": ".\\node_modules\\.bin\\electron-rebuild.cmd -f -m ./node_modules/better-sqlite3",
     "reset": "rm -rf ./node_modules/better-sqlite3 && npm install better-sqlite3",
+    "hono:dev": "tsx watch scripts/hono-bootstrap.ts",
+    "openapi:gen": "tsx scripts/openapi3.gen.mts",
     "preview": "vite preview",
     "pree2e": "vite build --mode=test",
     "lint": "eslint src --max-warnings=0",
@@ -29,8 +31,7 @@
   "dependencies": {
     "@libsql/client": "^0.15.10",
     "drizzle-orm": "^0.44.3",
-    "electron-updater": "^5.3.0",
-    "lucide-react": "^0.525.0"
+    "electron-updater": "^5.3.0"
   },
   "devDependencies": {
     "@electron/rebuild": "^3.6.0",
@@ -62,6 +63,7 @@
     "@vitejs/plugin-react": "^4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "concurrently": "^9.2.0",
     "dotenv": "^16.4.5",
     "drizzle-kit": "^0.31.4",
     "electron": "31.2.1",
@@ -102,9 +104,12 @@
     "vite-plugin-electron": "^0.11.2",
     "vite-plugin-electron-renderer": "^0.14.1",
     "vitest": "^2.0.4",
+    "wait-on": "^8.0.3",
     "winston": "^3.14.2",
     "zod": "^3.23.8",
-    "zustand": "^4.5.4"
+    "zustand": "^4.5.4",
+    "lucide-react": "^0.525.0",
+    "openapi-typescript": "7.8.0"
   },
   "engines": {
     "node": "^14.18.0 || >=16.0.0"

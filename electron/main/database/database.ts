@@ -6,7 +6,7 @@ import { isDev } from '../util/electron.util'
 import { ProjectsTable, UsersTable } from './schema'
 
 const databasePath = 'file:sqlite.db'
-const resourcesPath = `file:${join(process.resourcesPath, 'sqlite.db')}`
+const resourcesPath = `file:${join(process.resourcesPath ?? '', 'sqlite.db')}`
 
 const client = createClient({
   url: isDev() ? databasePath : resourcesPath
