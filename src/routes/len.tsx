@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { atom, useAtom } from 'jotai'
 
 const textAtom = atom('hello')
@@ -29,4 +30,6 @@ const Len = () => (
   </div>
 )
 
-export default Len
+export const Route = createFileRoute('/len')({
+  component: Len
+})

@@ -3,12 +3,13 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { createFileRoute } from '@tanstack/react-router'
 import { Lock } from 'lucide-react'
 import * as React from 'react'
 
 function Copyright(props: any) {
   return (
-    <p className="text-sm text-muted-foreground text-center" {...props}>
+    <p className="text-center text-sm text-muted-foreground" {...props}>
       {'Copyright © '}
       <a href="https://mui.com/" className="underline">
         Your Website
@@ -19,7 +20,7 @@ function Copyright(props: any) {
   )
 }
 
-export default function SignIn() {
+function SignIn() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
@@ -38,8 +39,8 @@ export default function SignIn() {
             <Lock />
           </AvatarFallback>
         </Avatar>
-        <h1 className="text-2xl font-semibold tracking-tight mt-2">Sign in</h1>
-        <form onSubmit={handleSubmit} className="w-full mt-6">
+        <h1 className="mt-2 text-2xl font-semibold tracking-tight">Sign in</h1>
+        <form onSubmit={handleSubmit} className="mt-6 w-full">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -61,10 +62,10 @@ export default function SignIn() {
               <Checkbox id="remember" />
               <Label htmlFor="remember">Remember me</Label>
             </div>
-            <Button type="submit" className="w-full mt-4">
+            <Button type="submit" className="mt-4 w-full">
               Sign In
             </Button>
-            <div className="text-sm text-muted-foreground mt-4 flex justify-between">
+            <div className="mt-4 flex justify-between text-sm text-muted-foreground">
               <a href="#" className="underline">
                 Forgot password?
               </a>
@@ -79,3 +80,7 @@ export default function SignIn() {
     </div>
   )
 }
+
+export const Route = createFileRoute('/sign-in')({
+  component: SignIn
+})

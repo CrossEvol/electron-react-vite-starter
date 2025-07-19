@@ -1,6 +1,7 @@
 // components/TodoList.tsx
+import { useTodoStore } from '@/store/todo-store'
+import { createFileRoute } from '@tanstack/react-router'
 import React, { useState } from 'react'
-import { useTodoStore } from '../store/todo-store'
 
 const TodoList: React.FC = () => {
   const [newTodo, setNewTodo] = useState('')
@@ -63,4 +64,6 @@ const TodoList: React.FC = () => {
   )
 }
 
-export default TodoList
+export const Route = createFileRoute('/todo-list')({
+  component: TodoList
+})

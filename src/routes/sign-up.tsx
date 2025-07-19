@@ -3,12 +3,13 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { createFileRoute } from '@tanstack/react-router'
 import { Lock } from 'lucide-react'
 import * as React from 'react'
 
 function Copyright(props: any) {
   return (
-    <p className="text-sm text-muted-foreground text-center" {...props}>
+    <p className="text-center text-sm text-muted-foreground" {...props}>
       {'Copyright © '}
       <a href="https://mui.com/" className="underline">
         Your Website
@@ -19,7 +20,7 @@ function Copyright(props: any) {
   )
 }
 
-export default function SignUp() {
+function SignUp() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
@@ -38,18 +39,13 @@ export default function SignUp() {
             <Lock />
           </AvatarFallback>
         </Avatar>
-        <h1 className="text-2xl font-semibold tracking-tight mt-2">Sign up</h1>
-        <form onSubmit={handleSubmit} className="w-full mt-6">
+        <h1 className="mt-2 text-2xl font-semibold tracking-tight">Sign up</h1>
+        <form onSubmit={handleSubmit} className="mt-6 w-full">
           <div className="grid gap-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="firstName">First Name</Label>
-                <Input
-                  id="firstName"
-                  name="firstName"
-                  required
-                  autoFocus
-                />
+                <Input id="firstName" name="firstName" required autoFocus />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="lastName">Last Name</Label>
@@ -80,7 +76,7 @@ export default function SignUp() {
             <Button type="submit" className="w-full">
               Sign Up
             </Button>
-            <div className="text-sm text-muted-foreground text-right">
+            <div className="text-right text-sm text-muted-foreground">
               <a href="#" className="underline">
                 Already have an account? Sign in
               </a>
@@ -92,3 +88,7 @@ export default function SignUp() {
     </div>
   )
 }
+
+export const Route = createFileRoute('/sign-up')({
+  component: SignUp
+})

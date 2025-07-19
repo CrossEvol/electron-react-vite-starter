@@ -1,14 +1,16 @@
 import { Button } from '@/components/ui/button'
 import type { paths } from '@/schemas/openapi3/openapi.schema.d'
 import fetchClient from '@/utils/fetch.client'
+import { createFileRoute } from '@tanstack/react-router'
 import React from 'react'
 import ProTip from '../ProTip'
 
-type UserResponse = paths['/users']['get']['responses'][200]['content']['application/json']
+type UserResponse =
+  paths['/users']['get']['responses'][200]['content']['application/json']
 
 function Copyright() {
   return (
-    <p className="text-muted-foreground text-center text-sm">
+    <p className="text-center text-sm text-muted-foreground">
       {'Copyright © '}
       <a href="https://mui.com/" className="underline">
         Your Website
@@ -18,7 +20,7 @@ function Copyright() {
   )
 }
 
-export default function Home() {
+function Home() {
   React.useEffect(() => {
     handleUpdatePort()
   }, [])
@@ -30,7 +32,7 @@ export default function Home() {
 
   const handleHttpRequest = async () => {
     const res = await fetchClient.get<UserResponse>(
-      `http://localhost:${localStorage.getItem('port')}/users`,
+      `http://localhost:${localStorage.getItem('port')}/users`
     )
     console.log(res)
   }
@@ -49,3 +51,7 @@ export default function Home() {
     </div>
   )
 }
+
+export const Route = createFileRoute('/')({
+  component: Home
+})
