@@ -64,6 +64,6 @@ const TodoList: React.FC = () => {
   )
 }
 
-export const Route = createFileRoute('/todo-list')({
+export const Route = createFileRoute('/showcase/todo-list')({
   component: TodoList
 })

@@ -9,130 +9,107 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TodoListRouteImport } from './routes/todo-list'
-import { Route as SignUpRouteImport } from './routes/sign-up'
-import { Route as SignInRouteImport } from './routes/sign-in'
-import { Route as LenRouteImport } from './routes/len'
-import { Route as CounterRouteImport } from './routes/counter'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShowcaseTodoListRouteImport } from './routes/showcase.todo-list'
+import { Route as ShowcaseLenRouteImport } from './routes/showcase.len'
+import { Route as ShowcaseCounterRouteImport } from './routes/showcase.counter'
+import { Route as AuthSignUpRouteImport } from './routes/auth.sign-up'
+import { Route as AuthSignInRouteImport } from './routes/auth.sign-in'
 
-const TodoListRoute = TodoListRouteImport.update({
-  id: '/todo-list',
-  path: '/todo-list',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SignUpRoute = SignUpRouteImport.update({
-  id: '/sign-up',
-  path: '/sign-up',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SignInRoute = SignInRouteImport.update({
-  id: '/sign-in',
-  path: '/sign-in',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LenRoute = LenRouteImport.update({
-  id: '/len',
-  path: '/len',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CounterRoute = CounterRouteImport.update({
-  id: '/counter',
-  path: '/counter',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShowcaseTodoListRoute = ShowcaseTodoListRouteImport.update({
+  id: '/showcase/todo-list',
+  path: '/showcase/todo-list',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShowcaseLenRoute = ShowcaseLenRouteImport.update({
+  id: '/showcase/len',
+  path: '/showcase/len',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShowcaseCounterRoute = ShowcaseCounterRouteImport.update({
+  id: '/showcase/counter',
+  path: '/showcase/counter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthSignUpRoute = AuthSignUpRouteImport.update({
+  id: '/auth/sign-up',
+  path: '/auth/sign-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthSignInRoute = AuthSignInRouteImport.update({
+  id: '/auth/sign-in',
+  path: '/auth/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/counter': typeof CounterRoute
-  '/len': typeof LenRoute
-  '/sign-in': typeof SignInRoute
-  '/sign-up': typeof SignUpRoute
-  '/todo-list': typeof TodoListRoute
+  '/auth/sign-in': typeof AuthSignInRoute
+  '/auth/sign-up': typeof AuthSignUpRoute
+  '/showcase/counter': typeof ShowcaseCounterRoute
+  '/showcase/len': typeof ShowcaseLenRoute
+  '/showcase/todo-list': typeof ShowcaseTodoListRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/counter': typeof CounterRoute
-  '/len': typeof LenRoute
-  '/sign-in': typeof SignInRoute
-  '/sign-up': typeof SignUpRoute
-  '/todo-list': typeof TodoListRoute
+  '/auth/sign-in': typeof AuthSignInRoute
+  '/auth/sign-up': typeof AuthSignUpRoute
+  '/showcase/counter': typeof ShowcaseCounterRoute
+  '/showcase/len': typeof ShowcaseLenRoute
+  '/showcase/todo-list': typeof ShowcaseTodoListRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/counter': typeof CounterRoute
-  '/len': typeof LenRoute
-  '/sign-in': typeof SignInRoute
-  '/sign-up': typeof SignUpRoute
-  '/todo-list': typeof TodoListRoute
+  '/auth/sign-in': typeof AuthSignInRoute
+  '/auth/sign-up': typeof AuthSignUpRoute
+  '/showcase/counter': typeof ShowcaseCounterRoute
+  '/showcase/len': typeof ShowcaseLenRoute
+  '/showcase/todo-list': typeof ShowcaseTodoListRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/counter' | '/len' | '/sign-in' | '/sign-up' | '/todo-list'
+  fullPaths:
+    | '/'
+    | '/auth/sign-in'
+    | '/auth/sign-up'
+    | '/showcase/counter'
+    | '/showcase/len'
+    | '/showcase/todo-list'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/counter' | '/len' | '/sign-in' | '/sign-up' | '/todo-list'
+  to:
+    | '/'
+    | '/auth/sign-in'
+    | '/auth/sign-up'
+    | '/showcase/counter'
+    | '/showcase/len'
+    | '/showcase/todo-list'
   id:
     | '__root__'
     | '/'
-    | '/counter'
-    | '/len'
-    | '/sign-in'
-    | '/sign-up'
-    | '/todo-list'
+    | '/auth/sign-in'
+    | '/auth/sign-up'
+    | '/showcase/counter'
+    | '/showcase/len'
+    | '/showcase/todo-list'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CounterRoute: typeof CounterRoute
-  LenRoute: typeof LenRoute
-  SignInRoute: typeof SignInRoute
-  SignUpRoute: typeof SignUpRoute
-  TodoListRoute: typeof TodoListRoute
+  AuthSignInRoute: typeof AuthSignInRoute
+  AuthSignUpRoute: typeof AuthSignUpRoute
+  ShowcaseCounterRoute: typeof ShowcaseCounterRoute
+  ShowcaseLenRoute: typeof ShowcaseLenRoute
+  ShowcaseTodoListRoute: typeof ShowcaseTodoListRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/todo-list': {
-      id: '/todo-list'
-      path: '/todo-list'
-      fullPath: '/todo-list'
-      preLoaderRoute: typeof TodoListRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sign-up': {
-      id: '/sign-up'
-      path: '/sign-up'
-      fullPath: '/sign-up'
-      preLoaderRoute: typeof SignUpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sign-in': {
-      id: '/sign-in'
-      path: '/sign-in'
-      fullPath: '/sign-in'
-      preLoaderRoute: typeof SignInRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/len': {
-      id: '/len'
-      path: '/len'
-      fullPath: '/len'
-      preLoaderRoute: typeof LenRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/counter': {
-      id: '/counter'
-      path: '/counter'
-      fullPath: '/counter'
-      preLoaderRoute: typeof CounterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -140,16 +117,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/showcase/todo-list': {
+      id: '/showcase/todo-list'
+      path: '/showcase/todo-list'
+      fullPath: '/showcase/todo-list'
+      preLoaderRoute: typeof ShowcaseTodoListRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/showcase/len': {
+      id: '/showcase/len'
+      path: '/showcase/len'
+      fullPath: '/showcase/len'
+      preLoaderRoute: typeof ShowcaseLenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/showcase/counter': {
+      id: '/showcase/counter'
+      path: '/showcase/counter'
+      fullPath: '/showcase/counter'
+      preLoaderRoute: typeof ShowcaseCounterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/sign-up': {
+      id: '/auth/sign-up'
+      path: '/auth/sign-up'
+      fullPath: '/auth/sign-up'
+      preLoaderRoute: typeof AuthSignUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/sign-in': {
+      id: '/auth/sign-in'
+      path: '/auth/sign-in'
+      fullPath: '/auth/sign-in'
+      preLoaderRoute: typeof AuthSignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CounterRoute: CounterRoute,
-  LenRoute: LenRoute,
-  SignInRoute: SignInRoute,
-  SignUpRoute: SignUpRoute,
-  TodoListRoute: TodoListRoute,
+  AuthSignInRoute: AuthSignInRoute,
+  AuthSignUpRoute: AuthSignUpRoute,
+  ShowcaseCounterRoute: ShowcaseCounterRoute,
+  ShowcaseLenRoute: ShowcaseLenRoute,
+  ShowcaseTodoListRoute: ShowcaseTodoListRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -30,6 +30,6 @@ const Len = () => (
   </div>
 )
 
-export const Route = createFileRoute('/len')({
+export const Route = createFileRoute('/showcase/len')({
   component: Len
 })

@@ -35,14 +35,14 @@ const Layout = ({ children }: PropsWithChildren) => {
 
   const menuItems = [
     { icon: <Home />, text: 'Home', path: '/' },
-    { icon: <LogIn />, text: 'SignIn', path: '/sign-in' },
-    { icon: <UserPlus />, text: 'SignUp', path: '/sign-up' }
+    { icon: <LogIn />, text: 'SignIn', path: '/auth/sign-in' },
+    { icon: <UserPlus />, text: 'SignUp', path: '/auth/sign-up' }
   ]
 
   const featureItems = [
-    { icon: <List />, text: 'Todo', path: '/todo-list' },
-    { icon: <AlarmPlus />, text: 'Counter', path: '/counter' },
-    { icon: <CaseSensitive />, text: 'Len', path: '/len' }
+    { icon: <List />, text: 'Todo', path: '/showcase/todo-list' },
+    { icon: <AlarmPlus />, text: 'Counter', path: '/showcase/counter' },
+    { icon: <CaseSensitive />, text: 'Len', path: '/showcase/len' }
   ]
 
   return (

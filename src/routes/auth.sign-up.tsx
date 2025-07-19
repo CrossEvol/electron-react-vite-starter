@@ -20,7 +20,7 @@ function Copyright(props: any) {
   )
 }
 
-function SignIn() {
+function SignUp() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
@@ -39,38 +39,46 @@ function SignIn() {
             <Lock />
           </AvatarFallback>
         </Avatar>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight">Sign in</h1>
+        <h1 className="mt-2 text-2xl font-semibold tracking-tight">Sign up</h1>
         <form onSubmit={handleSubmit} className="mt-6 w-full">
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="m@example.com"
-              required
-              autoFocus
-            />
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              name="password"
-              required
-            />
-            <div className="flex items-center space-x-2">
-              <Checkbox id="remember" />
-              <Label htmlFor="remember">Remember me</Label>
+          <div className="grid gap-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="firstName">First Name</Label>
+                <Input id="firstName" name="firstName" required autoFocus />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="lastName">Last Name</Label>
+                <Input id="lastName" name="lastName" required />
+              </div>
             </div>
-            <Button type="submit" className="mt-4 w-full">
-              Sign In
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                name="email"
+                placeholder="m@example.com"
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="password">Password</Label>
+              <Input id="password" type="password" name="password" required />
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="terms" />
+              <Label htmlFor="terms">
+                I want to receive inspiration, marketing promotions and updates
+                via email.
+              </Label>
+            </div>
+            <Button type="submit" className="w-full">
+              Sign Up
             </Button>
-            <div className="mt-4 flex justify-between text-sm text-muted-foreground">
+            <div className="text-right text-sm text-muted-foreground">
               <a href="#" className="underline">
-                Forgot password?
-              </a>
-              <a href="#" className="underline">
-                {"Don't have an account? Sign Up"}
+                Already have an account? Sign in
               </a>
             </div>
           </div>
@@ -81,6 +89,6 @@ function SignIn() {
   )
 }
 
-export const Route = createFileRoute('/sign-in')({
-  component: SignIn
+export const Route = createFileRoute('/auth/sign-up')({
+  component: SignUp
 })

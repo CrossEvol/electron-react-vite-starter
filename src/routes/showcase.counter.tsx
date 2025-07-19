@@ -12,6 +12,6 @@ function Counter() {
   )
 }
 
-export const Route = createFileRoute('/counter')({
+export const Route = createFileRoute('/showcase/counter')({
   component: Counter
 })
