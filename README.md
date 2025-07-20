@@ -4,6 +4,9 @@ the project structure is decided by [electron-vite-react](https://github.com/ele
 use the [block-note](https://github.com/TypeCellOS/BlockNote) as the rich-text-editor. <br/>
 use the [drizzle-orm](https://orm.drizzle.team/) to interact with the sqlite <br/>
 can run the [hono-server](https://hono.dev/docs/) in the service_workers(the author is too lazy to migrate) <br/>
+authorization and authentication by [better-auth](https://www.better-auth.com/)<br/>
+use [scalar](https://scalar.com/) to expose auth-related endpoints [better-auth with openapi](https://www.better-auth.com/docs/plugins/open-api)<br/>
+
 
 ## Getting Started
 

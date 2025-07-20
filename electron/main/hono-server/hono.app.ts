@@ -2,78 +2,87 @@ import { swaggerUI } from '@hono/swagger-ui'
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
 import { cors } from 'hono/cors'
 import { getPostsWithComments } from '../database/database'
+import { createAuthRouter } from '../hono-server/routes/auth-router'
+import { AuthType } from '../lib/auth'
 import { PostWithCommentsSchema } from './api-schema'
 
-const app = new OpenAPIHono()
-
-app.use('*', async (c, next) => {
-  const corsMiddlewareHandler = cors({
-    origin: '*'
+export const createHonoApp = (baseURL: string) => {
+  const app = new OpenAPIHono<{ Variables: AuthType }>({
+    strict: false
   })
-  return corsMiddlewareHandler(c, next)
-})
 
-app.openapi(
-  createRoute({
-    method: 'get',
-    path: '/hello',
-    responses: {
-      200: {
-        description: 'Respond a message',
-        content: {
-          'application/json': {
-            schema: z.object({
-              message: z.string()
-            })
-          }
-        }
-      }
-    }
-  }),
-  (c) => {
-    return c.json({
-      message: 'hello'
+  app.use('*', async (c, next) => {
+    const corsMiddlewareHandler = cors({
+      origin: '*'
     })
-  }
-)
+    return corsMiddlewareHandler(c, next)
+  })
 
-app.openapi(
-  createRoute({
-    method: 'get',
-    path: '/posts',
-    responses: {
-      200: {
-        description: 'Retrieve all posts with their comments',
-        content: {
-          'application/json': {
-            schema: z.object({
-              data: z.array(PostWithCommentsSchema)
-            })
+  app.openapi(
+    createRoute({
+      method: 'get',
+      path: '/hello',
+      responses: {
+        200: {
+          description: 'Respond a message',
+          content: {
+            'application/json': {
+              schema: z.object({
+                message: z.string()
+              })
+            }
           }
         }
       }
+    }),
+    (c) => {
+      return c.json({
+        message: 'hello'
+      })
     }
-  }),
-  async (c) => {
-    const posts = await getPostsWithComments()
-    return c.json({ data: posts })
-  }
-)
+  )
 
-app.get(
-  '/ui',
-  swaggerUI({
-    url: '/doc'
+  app.openapi(
+    createRoute({
+      method: 'get',
+      path: '/posts',
+      responses: {
+        200: {
+          description: 'Retrieve all posts with their comments',
+          content: {
+            'application/json': {
+              schema: z.object({
+                data: z.array(PostWithCommentsSchema)
+              })
+            }
+          }
+        }
+      }
+    }),
+    async (c) => {
+      const posts = await getPostsWithComments()
+      return c.json({ data: posts })
+    }
+  )
+
+  const authRouter = createAuthRouter(baseURL)
+  app.route('/api/auth', authRouter)
+
+  app.get(
+    '/ui',
+    swaggerUI({
+      url: '/doc'
+    })
+  )
+
+  app.doc('/doc', {
+    info: {
+      title: 'An API',
+      version: 'v1'
+    },
+    openapi: '3.1.0'
   })
-)
 
-app.doc('/doc', {
-  info: {
-    title: 'An API',
-    version: 'v1'
-  },
-  openapi: '3.1.0'
-})
-
-// Export the Hono app
-export default app
+  // Export the Hono app
+  return app
+}
