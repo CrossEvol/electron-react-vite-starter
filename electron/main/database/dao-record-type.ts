@@ -1,14 +1,18 @@
 import { drizzle } from 'drizzle-orm/libsql'
-import { ProjectsTable, UsersTable } from './schema'
+import { comments, posts } from './schema'
 
-const _getUser = (db: ReturnType<typeof drizzle>) => {
-  return db.select().from(UsersTable).get()
+const _getPost = async (db: ReturnType<typeof drizzle>) => {
+  return await db.select().from(posts).get()
 }
 
-export type UserRecord = ReturnType<typeof _getUser>
+export type PostRecord = Awaited<ReturnType<typeof _getPost>>
 
-const _getProject = (db: ReturnType<typeof drizzle>) => {
-  return db.select().from(ProjectsTable).get()
+const _getComment = (db: ReturnType<typeof drizzle>) => {
+  return db.select().from(comments).get()
 }
 
-export type ProjectRecord = ReturnType<typeof _getProject>
+export type CommentRecord = Awaited<ReturnType<typeof _getComment>>
+
+export type PostWithCommentsSchema = PostRecord & {
+  comments: CommentRecord[]
+}

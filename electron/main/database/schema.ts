@@ -1,18 +1,15 @@
-import { sql } from 'drizzle-orm'
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
-export const UsersTable = sqliteTable('users', {
-  id: integer('id').primaryKey(), // 'id' is the column name
-  fullName: text('full_name').notNull().default('')
+export const posts = sqliteTable('posts', {
+  id: integer('id').primaryKey(),
+  title: text('title'),
+  content: text('content')
 })
 
-export const ProjectsTable = sqliteTable('projects', {
-  id: integer('id').primaryKey(), // 'id' is the column name
-  name: text('name').notNull().default(''),
-  createdAt: integer('created_at', { mode: 'timestamp_ms' })
+export const comments = sqliteTable('comments', {
+  id: integer('id').primaryKey(),
+  text: text('text'),
+  postId: integer('post_id')
     .notNull()
-    .default(sql`CURRENT_TIMESTAMP`),
-  ownerId: integer('owner_id')
-    .notNull()
-    .references(() => UsersTable.id)
+    .references(() => posts.id)
 })

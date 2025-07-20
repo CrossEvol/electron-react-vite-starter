@@ -1,23 +1,23 @@
 import * as z from 'zod'
 
-export const ProjectsSchema = z
-  .object({
-    id: z.number(),
-    name: z.string(),
-    createdAt: z.date(),
-    ownerId: z.number()
-  })
-  .nullable()
-export type Projects = z.infer<typeof ProjectsSchema>
-
-export const UsersSchema = z.object({
+export const PostSchema = z.object({
   id: z.number(),
-  fullName: z.string()
-})
-export type Users = z.infer<typeof UsersSchema>
-
-export const UserWithProjectsSchema = UsersSchema.extend({
-  projects: z.array(ProjectsSchema).nullable()
+  title: z.string().nullable(),
+  content: z.string().nullable()
 })
 
-export type UserWithProjects = z.infer<typeof UserWithProjectsSchema>
+export type Post = z.infer<typeof PostSchema>
+
+export const CommentSchema = z.object({
+  id: z.number(),
+  text: z.string().nullable(),
+  postId: z.number()
+})
+
+export type Comment = z.infer<typeof CommentSchema>
+
+export const PostWithCommentsSchema = PostSchema.extend({
+  comments: z.array(CommentSchema.nullable())
+})
+
+export type PostWithComments = z.infer<typeof PostWithCommentsSchema>

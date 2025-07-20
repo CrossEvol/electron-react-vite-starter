@@ -10,7 +10,7 @@ type UserResponse =
 
 function Copyright() {
   return (
-    <p className="text-center text-sm text-muted-foreground">
+    <p className="text-muted-foreground text-center text-sm">
       {'Copyright © '}
       <a href="https://mui.com/" className="underline">
         Your Website
@@ -32,7 +32,7 @@ function Home() {
 
   const handleHttpRequest = async () => {
     const res = await fetchClient.get<UserResponse>(
-      `http://localhost:${localStorage.getItem('port')}/users`
+      `http://localhost:${localStorage.getItem('port')}/posts`
     )
     console.log(res)
   }

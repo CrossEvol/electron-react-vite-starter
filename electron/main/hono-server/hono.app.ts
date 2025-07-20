@@ -1,8 +1,8 @@
 import { swaggerUI } from '@hono/swagger-ui'
 import { createRoute, OpenAPIHono, z } from '@hono/zod-openapi'
 import { cors } from 'hono/cors'
-import { getUserWithProjects } from '../database/database'
-import { UserWithProjectsSchema } from './api-schema'
+import { getPostsWithComments } from '../database/database'
+import { PostWithCommentsSchema } from './api-schema'
 
 const app = new OpenAPIHono()
 
@@ -40,14 +40,14 @@ app.openapi(
 app.openapi(
   createRoute({
     method: 'get',
-    path: '/users',
+    path: '/posts',
     responses: {
       200: {
-        description: 'Create new User with Project',
+        description: 'Retrieve all posts with their comments',
         content: {
           'application/json': {
             schema: z.object({
-              data: UserWithProjectsSchema
+              data: z.array(PostWithCommentsSchema)
             })
           }
         }
@@ -55,8 +55,8 @@ app.openapi(
     }
   }),
   async (c) => {
-    const res = await getUserWithProjects()
-    return c.json({ data: res })
+    const posts = await getPostsWithComments()
+    return c.json({ data: posts })
   }
 )
 
