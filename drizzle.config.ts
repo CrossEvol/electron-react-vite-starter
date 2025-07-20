@@ -1,7 +1,7 @@
 import type { Config } from 'drizzle-kit'
 
 export default {
-  schema: './electron/main/database/schema.ts',
+  schema: './electron/main/database/schema/index.ts',
   out: './drizzle',
   dialect: 'sqlite',
   dbCredentials: {

@@ -5,7 +5,7 @@ import { drizzle } from 'drizzle-orm/libsql'
 import { join } from 'path'
 import { isDev } from '../util/electron.util'
 import { PostWithCommentsSchema } from './dao-record-type'
-import { comments, posts } from './schema' // 导入 posts 和 comments 表
+import { comments, posts } from './schema/default-schema' // 导入 posts 和 comments 表
 
 const databasePath = 'file:sqlite.db'
 const resourcesPath = `file:${join(process.resourcesPath ?? '', 'sqlite.db')}`

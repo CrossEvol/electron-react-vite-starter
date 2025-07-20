@@ -1,5 +1,5 @@
 import { drizzle } from 'drizzle-orm/libsql'
-import { comments, posts } from './schema'
+import { comments, posts } from './schema/default-schema'
 
 const _getPost = async (db: ReturnType<typeof drizzle>) => {
   return await db.select().from(posts).get()

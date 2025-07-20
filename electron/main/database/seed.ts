@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import { LibSQLDatabase } from 'drizzle-orm/libsql'
-import { comments, posts } from './schema'
+import { comments, posts } from './schema/default-schema'
 
 async function seed(db: LibSQLDatabase<Record<string, never>>) {
   console.log('开始为 posts 和 comments 表添加种子数据...')
