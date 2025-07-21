@@ -7,9 +7,9 @@ import ts from 'typescript'
 
 dotenv.config({ path: ['.env'] })
 
-const docUrl = process.env.SCHEMA_OPENAPI3_URL!
-const filename = process.env.SCHEMA_OPENAPI3_OUTPUT_FILENAME!
-const outputDir = process.env.SCHEMA_OPENAPI3_OUTPUT_DIRECTORY!
+const docUrl = process.env.SCHEMA_BETTER_AUTH_URL!
+const filename = process.env.SCHEMA_BETTER_AUTH_OUTPUT_FILENAME!
+const outputDir = process.env.SCHEMA_BETTER_AUTH_OUTPUT_DIRECTORY!
 const fullOutputPath = path.join(outputDir, filename)
 
 const DATE = ts.factory.createTypeReferenceNode(
@@ -78,8 +78,10 @@ const genByOpenapi = async () => {
   console.log(`✅ Step 1: Successfully generated types to ${fullOutputPath}`)
 
   // 3. 高效地修改第一行的 'paths' 为 'MyApiPaths'
-  await replaceFirstLine(fullOutputPath, 'paths', 'HonoPaths')
-  console.log(`✅ Step 2: Renamed 'paths' to 'HonoPaths' in the first line.`)
+  await replaceFirstLine(fullOutputPath, 'paths', 'BetterAuthPaths')
+  console.log(
+    `✅ Step 2: Renamed 'paths' to 'BetterAuthPaths' in the first line.`
+  )
 }
 
 await genByOpenapi()

@@ -2,6 +2,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import type { BetterAuthPaths } from '@/schemas/better-auth/better-auth.schema.d'
+import fetchClient from '@/utils/fetch.client'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Lock } from 'lucide-react'
 import * as React from 'react'
@@ -20,6 +22,9 @@ function Copyright(props: any) {
   )
 }
 
+type SignUpResponse =
+  BetterAuthPaths['/sign-up/email']['post']['responses']['200']['content']['application/json']
+
 function SignUp() {
   const navigate = useNavigate()
   const [error, setError] = useState<string | null>(null)
@@ -35,7 +40,7 @@ function SignUp() {
     const password = data.get('password') as string
 
     try {
-      const response = await fetch(
+      const _data = await fetchClient.post<SignUpResponse>(
         `http://localhost:${localStorage.getItem('port')}/api/auth/sign-up/email`,
         {
           method: 'POST',
@@ -45,11 +50,6 @@ function SignUp() {
           body: JSON.stringify({ name, email, password })
         }
       )
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.message || 'Sign-up failed')
-      }
 
       navigate({ to: '/auth/confirm-email' })
     } catch (err) {

@@ -47,3 +47,4 @@ e2e/screenshots/
 
 # Generated files
 src/schemas/openapi3/openapi.schema.d.ts
+src/schemas/better-auth/better-auth.schema.d.ts

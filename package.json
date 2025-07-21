@@ -17,7 +17,7 @@
     "rebuild": ".\\node_modules\\.bin\\electron-rebuild.cmd -f -m ./node_modules/better-sqlite3",
     "reset": "rm -rf ./node_modules/better-sqlite3 && npm install better-sqlite3",
     "hono:dev": "tsx watch scripts/hono-bootstrap.ts",
-    "openapi:gen": "tsx scripts/openapi3.gen.mts",
+    "openapi:gen": "tsx scripts/openapi3.gen.mts && tsx scripts/openapi3.better-auth.gen.mts",
     "preview": "vite preview",
     "pree2e": "vite build --mode=test",
     "lint": "eslint src --max-warnings=0",

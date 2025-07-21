@@ -1,12 +1,11 @@
 import { Button } from '@/components/ui/button'
-import type { paths } from '@/schemas/openapi3/openapi.schema.d'
+import type { HonoPaths } from '@/schemas/openapi3/openapi.schema.d'
 import fetchClient from '@/utils/fetch.client'
 import { createFileRoute } from '@tanstack/react-router'
-import React from 'react'
 import ProTip from '../ProTip'
 
 type UserResponse =
-  paths['/users']['get']['responses'][200]['content']['application/json']
+  HonoPaths['/posts']['get']['responses'][200]['content']['application/json']
 
 function Copyright() {
   return (

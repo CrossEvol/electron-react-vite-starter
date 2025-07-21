@@ -3,10 +3,15 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { BetterAuthPaths } from '@/schemas/better-auth/better-auth.schema'
+import fetchClient from '@/utils/fetch.client'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Lock } from 'lucide-react'
 import * as React from 'react'
 import { useState } from 'react'
+
+type SignInResponse =
+  BetterAuthPaths['/sign-in/email']['post']['responses']['200']['content']['application/json']
 
 function Copyright(props: any) {
   return (
@@ -36,7 +41,7 @@ function SignIn() {
     const rememberMe = data.get('remember') === 'on'
 
     try {
-      const response = await fetch(
+      const data = await fetchClient.post<SignInResponse>(
         `http://localhost:${localStorage.getItem('port')}/api/auth/sign-in/email`,
         {
           method: 'POST',
@@ -47,12 +52,6 @@ function SignIn() {
         }
       )
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.message || 'Sign-in failed')
-      }
-
-      const data = await response.json()
       // Assuming the token and user data are stored somewhere, e.g., in a global state or local storage.
       // For now, let's just log it and redirect.
       console.log('Sign-in successful', data)
