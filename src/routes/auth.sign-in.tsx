@@ -3,13 +3,14 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Lock } from 'lucide-react'
 import * as React from 'react'
+import { useState } from 'react'
 
 function Copyright(props: any) {
   return (
-    <p className="text-center text-sm text-muted-foreground" {...props}>
+    <p className="text-muted-foreground text-center text-sm" {...props}>
       {'Copyright © '}
       <a href="https://mui.com/" className="underline">
         Your Website
@@ -21,13 +22,59 @@ function Copyright(props: any) {
 }
 
 function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const navigate = useNavigate()
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+
+  React.useEffect(() => {
+    handleUpdatePort()
+  }, [])
+
+  const handleUpdatePort = async () => {
+    const { port } = await window.electronAPI.updatePort()
+    localStorage.setItem('port', port.toString())
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setLoading(true)
+    setError(null)
     const data = new FormData(event.currentTarget)
-    console.log({
-      email: data.get('email'),
-      password: data.get('password')
-    })
+    const email = data.get('email') as string
+    const password = data.get('password') as string
+    const rememberMe = data.get('remember') === 'on'
+
+    try {
+      const response = await fetch(
+        `http://localhost:${localStorage.getItem('port')}/api/auth/sign-in/email`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, password, rememberMe })
+        }
+      )
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.message || 'Sign-in failed')
+      }
+
+      const data = await response.json()
+      // Assuming the token and user data are stored somewhere, e.g., in a global state or local storage.
+      // For now, let's just log it and redirect.
+      console.log('Sign-in successful', data)
+      // Store token, maybe in localStorage or a state management library
+      localStorage.setItem('token', data.token)
+      localStorage.setItem('user', JSON.stringify(data.user))
+
+      navigate({ to: '/' })
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -50,6 +97,7 @@ function SignIn() {
               placeholder="m@example.com"
               required
               autoFocus
+              disabled={loading}
             />
             <Label htmlFor="password">Password</Label>
             <Input
@@ -57,19 +105,21 @@ function SignIn() {
               type="password"
               name="password"
               required
+              disabled={loading}
             />
             <div className="flex items-center space-x-2">
-              <Checkbox id="remember" />
+              <Checkbox id="remember" name="remember" disabled={loading} />
               <Label htmlFor="remember">Remember me</Label>
             </div>
-            <Button type="submit" className="mt-4 w-full">
-              Sign In
+            {error && <p className="text-sm text-red-500">{error}</p>}
+            <Button type="submit" className="mt-4 w-full" disabled={loading}>
+              {loading ? 'Signing In...' : 'Sign In'}
             </Button>
-            <div className="mt-4 flex justify-between text-sm text-muted-foreground">
+            <div className="text-muted-foreground mt-4 flex justify-between text-sm">
               <a href="#" className="underline">
                 Forgot password?
               </a>
-              <a href="#" className="underline">
+              <a href="/auth/sign-up" className="underline">
                 {"Don't have an account? Sign Up"}
               </a>
             </div>

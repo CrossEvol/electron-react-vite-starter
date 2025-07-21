@@ -1,15 +1,15 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Lock } from 'lucide-react'
 import * as React from 'react'
+import { useState } from 'react'
 
 function Copyright(props: any) {
   return (
-    <p className="text-center text-sm text-muted-foreground" {...props}>
+    <p className="text-muted-foreground text-center text-sm" {...props}>
       {'Copyright © '}
       <a href="https://mui.com/" className="underline">
         Your Website
@@ -21,13 +21,51 @@ function Copyright(props: any) {
 }
 
 function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const navigate = useNavigate()
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+
+  React.useEffect(() => {
+    handleUpdatePort()
+  }, [])
+
+  const handleUpdatePort = async () => {
+    const { port } = await window.electronAPI.updatePort()
+    localStorage.setItem('port', port.toString())
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setLoading(true)
+    setError(null)
     const data = new FormData(event.currentTarget)
-    console.log({
-      email: data.get('email'),
-      password: data.get('password')
-    })
+    const name = data.get('name') as string
+    const email = data.get('email') as string
+    const password = data.get('password') as string
+
+    try {
+      const response = await fetch(
+        `http://localhost:${localStorage.getItem('port')}/api/auth/sign-up/email`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, email, password })
+        }
+      )
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.message || 'Sign-up failed')
+      }
+
+      navigate({ to: '/auth/confirm-email' })
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -42,15 +80,15 @@ function SignUp() {
         <h1 className="mt-2 text-2xl font-semibold tracking-tight">Sign up</h1>
         <form onSubmit={handleSubmit} className="mt-6 w-full">
           <div className="grid gap-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="firstName">First Name</Label>
-                <Input id="firstName" name="firstName" required autoFocus />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="lastName">Last Name</Label>
-                <Input id="lastName" name="lastName" required />
-              </div>
+            <div className="grid gap-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                name="name"
+                required
+                autoFocus
+                disabled={loading}
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
@@ -60,24 +98,25 @@ function SignUp() {
                 name="email"
                 placeholder="m@example.com"
                 required
+                disabled={loading}
               />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" name="password" required />
+              <Input
+                id="password"
+                type="password"
+                name="password"
+                required
+                disabled={loading}
+              />
             </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox id="terms" />
-              <Label htmlFor="terms">
-                I want to receive inspiration, marketing promotions and updates
-                via email.
-              </Label>
-            </div>
-            <Button type="submit" className="w-full">
-              Sign Up
+            {error && <p className="text-sm text-red-500">{error}</p>}
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? 'Signing Up...' : 'Sign Up'}
             </Button>
-            <div className="text-right text-sm text-muted-foreground">
-              <a href="#" className="underline">
+            <div className="text-muted-foreground text-right text-sm">
+              <a href="/auth/sign-in" className="underline">
                 Already have an account? Sign in
               </a>
             </div>
