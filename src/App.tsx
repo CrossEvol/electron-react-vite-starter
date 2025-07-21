@@ -1,5 +1,6 @@
 import { createRouter, RouterProvider } from '@tanstack/react-router'
 import React from 'react'
+import { usePort } from './hooks/use-port'
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
 
@@ -18,6 +19,7 @@ declare module '@tanstack/react-router' {
 }
 
 const App = () => {
+  usePort()
   return <RouterProvider router={router} />
 }
 

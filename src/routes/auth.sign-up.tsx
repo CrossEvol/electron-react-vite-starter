@@ -25,15 +25,6 @@ function SignUp() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
-  React.useEffect(() => {
-    handleUpdatePort()
-  }, [])
-
-  const handleUpdatePort = async () => {
-    const { port } = await window.electronAPI.updatePort()
-    localStorage.setItem('port', port.toString())
-  }
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setLoading(true)

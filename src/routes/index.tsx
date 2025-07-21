@@ -21,15 +21,6 @@ function Copyright() {
 }
 
 function Home() {
-  React.useEffect(() => {
-    handleUpdatePort()
-  }, [])
-
-  const handleUpdatePort = async () => {
-    const { port } = await window.electronAPI.updatePort()
-    localStorage.setItem('port', port.toString())
-  }
-
   const handleHttpRequest = async () => {
     const res = await fetchClient.get<UserResponse>(
       `http://localhost:${localStorage.getItem('port')}/posts`
