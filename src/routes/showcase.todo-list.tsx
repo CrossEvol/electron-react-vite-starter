@@ -1,4 +1,9 @@
 // components/TodoList.tsx
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Input } from '@/components/ui/input'
+import { cn } from '@/lib/utils'
 import { useTodoStore } from '@/store/todo-store'
 import { createFileRoute } from '@tanstack/react-router'
 import React, { useState } from 'react'
@@ -15,51 +20,64 @@ const TodoList: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto mt-10 max-w-md rounded-lg bg-white p-4 shadow-lg">
-      <h1 className="mb-4 text-xl font-bold">Todo List</h1>
-      <div className="mb-4 flex">
-        <input
-          type="text"
-          className="grow rounded-md border border-gray-300 p-2"
-          value={newTodo}
-          onChange={(e) => setNewTodo(e.target.value)}
-        />
-        <button
-          className="ml-2 rounded-md bg-blue-500 p-2 text-white"
-          onClick={handleAddTodo}
-        >
-          Add
-        </button>
-      </div>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id} className="mb-2 flex items-center justify-between">
-            <input
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() => toggleTodo(todo.id)}
-              className="mr-2"
+    <div className="bg-background flex min-h-screen items-center justify-center p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle className="text-center">Todo List</CardTitle>
+          <p className="text-muted-foreground text-sm leading-7 [&:not(:first-child)]:mt-6">
+            This page demonstrates the integration and basic usage of the
+            Zustand state management library.
+          </p>
+        </CardHeader>
+        <CardContent>
+          <div className="mb-4 flex space-x-2">
+            <Input
+              type="text"
+              placeholder="Add a new todo..."
+              value={newTodo}
+              onChange={(e) => setNewTodo(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  handleAddTodo()
+                }
+              }}
             />
-            <span className={`grow ${todo.completed ? 'line-through' : ''}`}>
-              {todo.text}
-            </span>
-            {/* <span
-                            className={`grow cursor-pointer ${
-                                todo.completed ? 'line-through' : ''
-                            }`}
-                            onClick={() => toggleTodo(todo.id)}
-                        >
-                            {todo.text}
-                        </span> */}
-            <button
-              className="ml-2 rounded-md bg-red-500 p-2 text-white"
-              onClick={() => deleteTodo(todo.id)}
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+            <Button onClick={handleAddTodo}>Add</Button>
+          </div>
+          <ul className="space-y-2">
+            {todos.map((todo) => (
+              <li
+                key={todo.id}
+                className="bg-muted flex items-center justify-between rounded-md p-3"
+              >
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id={`todo-${todo.id}`}
+                    checked={todo.completed}
+                    onCheckedChange={() => toggleTodo(todo.id)}
+                  />
+                  <label
+                    htmlFor={`todo-${todo.id}`}
+                    className={cn(
+                      'text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+                      todo.completed ? 'text-muted-foreground line-through' : ''
+                    )}
+                  >
+                    {todo.text}
+                  </label>
+                </div>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => deleteTodo(todo.id)}
+                >
+                  Delete
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
     </div>
   )
 }
