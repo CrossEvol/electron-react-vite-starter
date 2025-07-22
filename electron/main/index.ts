@@ -77,7 +77,7 @@ async function createWindow() {
         // Open devTool if the app is not packaged
         win.webContents.openDevTools()
     } else {
-        win.loadFile(indexHtml)
+        win.loadFile(indexHtml, { hash: '/' })
     }
 
     // Test actively push message to the Electron-Renderer

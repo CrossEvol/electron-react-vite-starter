@@ -1,6 +1,6 @@
 {
   "name": "electron-vite-react",
-  "version": "0.0.2-snapshot",
+  "version": "0.0.3-snapshot",
   "main": "dist-electron/main/index.js",
   "description": "Electron Vite React boilerplate.",
   "author": "296662402@qq.com",
@@ -14,8 +14,6 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
-    "rebuild": ".\\node_modules\\.bin\\electron-rebuild.cmd -f -m ./node_modules/better-sqlite3",
-    "reset": "rm -rf ./node_modules/better-sqlite3 && npm install better-sqlite3",
     "hono:dev": "tsx watch scripts/hono-bootstrap.ts",
     "openapi:gen": "tsx scripts/openapi3.gen.mts && tsx scripts/openapi3.better-auth.gen.mts",
     "preview": "vite preview",

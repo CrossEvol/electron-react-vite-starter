@@ -1,9 +1,8 @@
 ## What
 
 the project structure is decided by [electron-vite-react](https://github.com/electron-vite/electron-vite-react) <br/>
-use the [block-note](https://github.com/TypeCellOS/BlockNote) as the rich-text-editor. <br/>
 use the [drizzle-orm](https://orm.drizzle.team/) to interact with the sqlite <br/>
-can run the [hono-server](https://hono.dev/docs/) in the service_workers(the author is too lazy to migrate) <br/>
+can run the [hono-server](https://hono.dev/docs/) in the service_workers <br/>
 authorization and authentication by [better-auth](https://www.better-auth.com/)<br/>
 use [scalar](https://scalar.com/) to expose auth-related endpoints [better-auth with openapi](https://www.better-auth.com/docs/plugins/open-api)<br/>
 
@@ -15,46 +14,69 @@ use [scalar](https://scalar.com/) to expose auth-related endpoints [better-auth 
 Install dependencies.
 
 ```bash
-npm install
+pnpm install
 ```
 
 before run , should initialize the drizzle-orm
 
 ```bash
-npm run generate
-npm run migrate
-npm run rebuild
+pnpm run db:gen
+pnpm run db:migrate
 ```
 
-should rebuild better-sqlite3 before run app,  <br/>
-if you want to restore the better-sqlite3, run `npm run reset` <br/>
+other drizzle commands you can call are
 
 ```bash
-npm run dev
+pnpm run db:push 
+pnpm run db:pull
+pnpm run db:export
+pnpm run db:check
+pnpm run db:up
+pnpm run db:studio
+```
+
+This project includes a backend server built with Hono that runs in a service worker. You can start this server for development with the following command:
+
+```bash
+pnpm run hono:dev
+```
+
+This server exposes an OpenAPI endpoint. You can generate the client-side schemas from this endpoint by running:
+
+```bash
+pnpm run openapi:gen
+```
+
+This will populate the `src\schemas` directory with the generated schemas.
+
+To start the main application development server, run:
+
+```bash
+pnpm run dev
 ```
 
 ### Lint
 
 ```bash
-npm run lint
+pnpm run lint
 ```
 
 ### Build
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 ### Test
 
 ```bash
-npm run test
+pnpm run test
 ```
 
 View and interact with your tests via UI.
 
 ```bash
-npm run test:ui
+pnpm run test:ui
 ```
 
 ## References

@@ -37,7 +37,6 @@
     "**/*.ts",
     "**/*.tsx",
     "./vitest.setup.ts",
-    "vite.config.mts",
     "scripts/hono-bootstrap.tx",
     "scripts/openapi3.gen.mts"
   ],
