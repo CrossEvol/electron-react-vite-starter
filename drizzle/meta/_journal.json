@@ -15,6 +15,13 @@
       "when": 1753010662909,
       "tag": "0001_broken_slayback",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1753185825916,
+      "tag": "0002_dashing_husk",
+      "breakpoints": true
     }
   ]
 }

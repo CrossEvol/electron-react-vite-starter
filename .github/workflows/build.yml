@@ -1,0 +1,141 @@
+name: Build and Release Electron App
+
+on:
+  push:
+    branches: [   master ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [   master ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    environment: release # 添加此行，指定使用名为 'release' 的环境
+
+    strategy:
+      matrix:
+        os: [windows-latest]
+        node-version: [20.x]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: 10
+
+    - name: Install dependencies
+      run: pnpm install
+
+    - name: Run database generation
+      env:
+        DB_FILE_NAME: ${{ vars.DB_FILE_NAME }}
+        BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+        AUTH_GITHUB_CLIENT_ID: ${{ secrets.AUTH_GITHUB_CLIENT_ID }}
+        AUTH_GITHUB_CLIENT_SECRET: ${{ secrets.AUTH_GITHUB_CLIENT_SECRET }}
+      run: pnpm db:gen
+
+    - name: Run database migrations
+      env:
+        DB_FILE_NAME: ${{ vars.DB_FILE_NAME }}
+        BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+        AUTH_GITHUB_CLIENT_ID: ${{ secrets.AUTH_GITHUB_CLIENT_ID }}
+        AUTH_GITHUB_CLIENT_SECRET: ${{ secrets.AUTH_GITHUB_CLIENT_SECRET }}
+      run: pnpm db:migrate
+
+    - name: Generate OpenAPI schemas (non-Windows)
+      if: runner.os != 'Windows'
+      shell: bash
+      env:
+        ELECTRON_ENABLE_LOGGING: ${{ vars.ELECTRON_ENABLE_LOGGING }}
+        ELECTRON_IS_DEV: ${{ vars.ELECTRON_IS_DEV }}
+        DB_FILE_NAME: ${{ vars.DB_FILE_NAME }}
+        BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+        AUTH_GITHUB_CLIENT_ID: ${{ secrets.AUTH_GITHUB_CLIENT_ID }}
+        AUTH_GITHUB_CLIENT_SECRET: ${{ secrets.AUTH_GITHUB_CLIENT_SECRET }}
+        SCHEMA_OPENAPI3_URL: ${{ vars.SCHEMA_OPENAPI3_URL }}
+        SCHEMA_OPENAPI3_OUTPUT_FILENAME: ${{ vars.SCHEMA_OPENAPI3_OUTPUT_FILENAME }}
+        SCHEMA_OPENAPI3_OUTPUT_DIRECTORY: ${{ vars.SCHEMA_OPENAPI3_OUTPUT_DIRECTORY }}
+        SCHEMA_BETTER_AUTH_URL: ${{ vars.SCHEMA_BETTER_AUTH_URL }}
+        SCHEMA_BETTER_AUTH_OUTPUT_FILENAME: ${{ vars.SCHEMA_BETTER_AUTH_OUTPUT_FILENAME }}
+        SCHEMA_BETTER_AUTH_OUTPUT_DIRECTORY: ${{ vars.SCHEMA_BETTER_AUTH_OUTPUT_DIRECTORY }}
+      run: |
+        pnpm run hono:dev &
+        pnpm exec wait-on http://127.0.0.1:8080 -t 60000
+        pnpm run openapi:gen
+        kill $!
+
+    - name: Generate OpenAPI schemas (Windows)
+      if: runner.os == 'Windows'
+      shell: pwsh
+      env:
+        ELECTRON_ENABLE_LOGGING: ${{ vars.ELECTRON_ENABLE_LOGGING }}
+        ELECTRON_IS_DEV: ${{ vars.ELECTRON_IS_DEV }}
+        DB_FILE_NAME: ${{ vars.DB_FILE_NAME }}
+        BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+        AUTH_GITHUB_CLIENT_ID: ${{ secrets.AUTH_GITHUB_CLIENT_ID }}
+        AUTH_GITHUB_CLIENT_SECRET: ${{ secrets.AUTH_GITHUB_CLIENT_SECRET }}
+        SCHEMA_OPENAPI3_URL: ${{ vars.SCHEMA_OPENAPI3_URL }}
+        SCHEMA_OPENAPI3_OUTPUT_FILENAME: ${{ vars.SCHEMA_OPENAPI3_OUTPUT_FILENAME }}
+        SCHEMA_OPENAPI3_OUTPUT_DIRECTORY: ${{ vars.SCHEMA_OPENAPI3_OUTPUT_DIRECTORY }}
+        SCHEMA_BETTER_AUTH_URL: ${{ vars.SCHEMA_BETTER_AUTH_URL }}
+        SCHEMA_BETTER_AUTH_OUTPUT_FILENAME: ${{ vars.SCHEMA_BETTER_AUTH_OUTPUT_FILENAME }}
+        SCHEMA_BETTER_AUTH_OUTPUT_DIRECTORY: ${{ vars.SCHEMA_BETTER_AUTH_OUTPUT_DIRECTORY }}
+      run: |
+        pnpm run hono:dev & pnpm exec wait-on http://127.0.0.1:8080 -t 60000 & pnpm run openapi:gen
+
+    - name: Get version from tag
+      if: startsWith(github.ref, 'refs/tags/v')
+      id: get_version
+      shell: bash
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
+    - name: Build application
+      run: |
+        if [[ -n "${{ env.VERSION }}" ]]; then
+          pnpm build -- --publish never -c.extraMetadata.version=${{ env.VERSION }}
+        else
+          pnpm build -- --publish never
+        fi
+      shell: bash
+      env:
+        # Prevents "Failed to get key, long running" error on macOS
+        CSC_IDENTITY_AUTO_DISCOVERY: false
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: electron-app-${{ matrix.os }}
+        path: |
+          release/*/*.exe
+          release/*/*.dmg
+          release/*/*.zip
+          release/*/*.AppImage
+          release/*/*.deb
+          release/*/*.rpm
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    environment: release # 添加此行，指定使用名为 'release' 的环境
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
+          fail_on_unmatched_files: true

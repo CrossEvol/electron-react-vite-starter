@@ -1,14 +1,28 @@
 import 'dotenv/config'
 import { LibSQLDatabase } from 'drizzle-orm/libsql'
 import { comments, posts } from './schema/default-schema'
+import { sql } from 'drizzle-orm' // 引入 sql 模板字符串标签
 
 async function seed(db: LibSQLDatabase<Record<string, never>>) {
   console.log('开始为 posts 和 comments 表添加种子数据...')
 
   // 清空现有数据（可选，但对于种子脚本通常很有用）
-  await db.delete(comments)
-  await db.delete(posts)
-  console.log('已清空 posts 和 comments 表。')
+  // 检查表是否存在，然后清空数据
+  const commentsTableExists = await db.run(sql`SELECT name FROM sqlite_master WHERE type='table' AND name='comments';`).then(res => res.rows.length > 0);
+  if (commentsTableExists) {
+    await db.delete(comments)
+    console.log('已清空 comments 表。')
+  } else {
+    console.log('comments 表不存在，跳过清空数据。')
+  }
+
+  const postsTableExists = await db.run(sql`SELECT name FROM sqlite_master WHERE type='table' AND name='posts';`).then(res => res.rows.length > 0);
+  if (postsTableExists) {
+    await db.delete(posts)
+    console.log('已清空 posts 表。')
+  } else {
+    console.log('posts 表不存在，跳过清空数据。')
+  }
 
   // 插入 posts 数据
   const insertedPosts = await db

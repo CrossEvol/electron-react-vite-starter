@@ -62,7 +62,15 @@ const replaceFirstLine = async (
 }
 
 const genByOpenapi = async () => {
-  // 1. 生成原始的 AST
+  // 1. 检查并创建输出目录
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true })
+    console.log(`✅ Step 1: Output directory created at ${outputDir}`)
+  } else {
+    console.log(`✅ Step 1: Output directory already exists at ${outputDir}`)
+  }
+
+  // 2. 生成原始的 AST
   const ast = await openapiTS(docUrl, {
     transform(schemaObject) {
       if (schemaObject.format === 'date-time') {
@@ -73,14 +81,14 @@ const genByOpenapi = async () => {
     }
   })
 
-  // 2. 将 AST 写入文件
+  // 3. 将 AST 写入文件
   fs.writeFileSync(fullOutputPath, astToString(ast))
-  console.log(`✅ Step 1: Successfully generated types to ${fullOutputPath}`)
+  console.log(`✅ Step 2: Successfully generated types to ${fullOutputPath}`)
 
-  // 3. 高效地修改第一行的 'paths' 为 'MyApiPaths'
+  // 4. 高效地修改第一行的 'paths' 为 'MyApiPaths'
   await replaceFirstLine(fullOutputPath, 'paths', 'BetterAuthPaths')
   console.log(
-    `✅ Step 2: Renamed 'paths' to 'BetterAuthPaths' in the first line.`
+    `✅ Step 3: Renamed 'paths' to 'BetterAuthPaths' in the first line.`
   )
 }
 
