@@ -9,6 +9,9 @@ use [scalar](https://scalar.com/) to expose auth-related endpoints [better-auth 
 
 ## Getting Started
 
+### Prepare
+you should copy the .env.example to .env before you start.
+
 ### Install
 
 Install dependencies.
