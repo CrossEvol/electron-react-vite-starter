@@ -1,0 +1,96 @@
+import { _electron as electron, expect, test } from '@playwright/test'
+
+test('homepage has title and links to intro page', async () => {
+  const app = await electron.launch({ args: ['.', '--no-sandbox'] })
+  const isPackaged = await app.evaluate(async ({ app }) => {
+    // This runs in Electron's main process, parameter here is always
+    // the result of the require('electron') in the main app script.
+    return app.isPackaged
+  })
+
+  expect(isPackaged).toBe(false)
+
+  const page = await app.firstWindow()
+
+  await page.screenshot({ path: 'e2e/screenshots/home.png' })
+  await page.getByRole('button', { name: 'Test HttpRequest' }).click()
+  await page.getByRole('heading', { name: 'Fetched Posts:' }).click()
+  await page.screenshot({ path: 'e2e/screenshots/home-fetch-posts.png' })
+  await page.getByRole('button', { name: 'Reset' }).click()
+  await page.screenshot({ path: 'e2e/screenshots/home-reset.png' })
+  await page.getByRole('button').filter({ hasText: /^$/ }).click()
+
+  await page.getByRole('heading', { name: 'Menu' }).click()
+  await page.screenshot({ path: 'e2e/screenshots/sidebar-open.png' })
+  await page.locator('.data-\\[state\\=open\\]\\:animate-in').first().click()
+  await page.getByRole('button').filter({ hasText: /^$/ }).click()
+  await page.getByRole('button', { name: 'Home' }).click()
+  await page.locator('.data-\\[state\\=open\\]\\:animate-in').first().click()
+  await page.screenshot({ path: 'e2e/screenshots/navigate-to-home.png' })
+  await page.getByRole('heading', { name: 'Shadcn UI Vite.js example' }).click()
+
+  await page.getByRole('button').filter({ hasText: /^$/ }).click()
+  await page.getByRole('button', { name: 'SignIn' }).click()
+  await page.locator('.data-\\[state\\=open\\]\\:animate-in').first().click()
+  await page.getByRole('heading', { name: 'Sign in' }).click()
+  await page.screenshot({ path: 'e2e/screenshots/navigate-to-sign-in.png' })
+  await page.getByRole('button').filter({ hasText: /^$/ }).click()
+  await page.getByRole('button', { name: 'SignUp' }).click()
+  await page.locator('.data-\\[state\\=open\\]\\:animate-in').first().click()
+  await page.getByRole('heading', { name: 'Sign up' }).click()
+  await page.screenshot({ path: 'e2e/screenshots/navigate-to-sign-up.png' })
+
+  await page.getByRole('button').filter({ hasText: /^$/ }).click()
+  await page.getByRole('button', { name: 'Todo' }).click()
+  await page.locator('.data-\\[state\\=open\\]\\:animate-in').first().click()
+  await page.getByText('Todo List').click()
+  await page.screenshot({ path: 'e2e/screenshots/navigate-to-todo.png' })
+  await page.getByRole('textbox', { name: 'Add a new todo...' }).click()
+  await page.getByRole('textbox', { name: 'Add a new todo...' }).fill('TODO1')
+  await page.getByRole('button', { name: 'Add' }).click()
+  await page.screenshot({ path: 'e2e/screenshots/add-todo.png' })
+  await page.getByRole('checkbox', { name: 'TODO1' }).click()
+  await page.screenshot({ path: 'e2e/screenshots/switch-todo.png' })
+  await page.getByRole('checkbox', { name: 'TODO1' }).click()
+  await page.getByRole('button', { name: 'Delete' }).click()
+  await page.screenshot({ path: 'e2e/screenshots/remove-todo.png' })
+
+  await page.getByRole('button').filter({ hasText: /^$/ }).click()
+  await page.getByRole('button', { name: 'Counter' }).click()
+  await page.locator('.data-\\[state\\=open\\]\\:animate-in').first().click()
+  await page.screenshot({ path: 'e2e/screenshots/counter-one.png' })
+  await page.getByText('1').click()
+  await page.getByRole('button', { name: 'Increment' }).click()
+  await page.screenshot({ path: 'e2e/screenshots/counter-two.png' })
+  await page.getByText('2').click()
+  await page.getByRole('button', { name: 'Increment' }).click()
+  await page.screenshot({ path: 'e2e/screenshots/counter-three.png' })
+  await page.getByText('3').click()
+
+  await page.getByRole('button').filter({ hasText: /^$/ }).click()
+  await page.getByRole('button', { name: 'Len' }).click()
+  await page.locator('.data-\\[state\\=open\\]\\:animate-in').first().click()
+  await page.getByRole('heading', { name: 'Text Analyzer' }).click()
+  await page.screenshot({ path: 'e2e/screenshots/navigate-to-len.png' })
+  await page.getByText('Character Count: 5').click()
+  await page.getByText('Uppercase: HELLO').click()
+  await page.getByRole('textbox', { name: 'Enter some text...' }).click()
+  await page
+    .getByRole('textbox', { name: 'Enter some text...' })
+    .fill('hello,world!')
+  await page.getByText('Character Count: 12').click()
+  await page.getByText('Uppercase: HELLO,WORLD!').click()
+  await page.screenshot({ path: 'e2e/screenshots/change-text.png' })
+
+  await page.getByText('Shadcn-UIToggle theme').click()
+  await page.getByRole('button', { name: 'Toggle theme' }).click()
+  await page.screenshot({ path: 'e2e/screenshots/toggle-theme.png' })
+  await page.locator('html').click()
+
+  await page.getByRole('button').filter({ hasText: /^$/ }).click()
+  await page.getByRole('button', { name: 'Home' }).click()
+  await page.locator('.data-\\[state\\=open\\]\\:animate-in').first().click()
+  await page.locator('html').click()
+  await page.waitForTimeout(1000)
+  await page.screenshot({ path: 'e2e/screenshots/back-to-home.png' })
+})
